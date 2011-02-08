@@ -1,4 +1,4 @@
-/* 
+/*
  * File:   Chip.h
  * Author: Felix
  *
@@ -21,12 +21,18 @@ private:
     std::string name; //description of this chip type
     int amount; //number of chips in bank
 public:
-    void print();
-    ostream& operator<<(); //todo: make possible "cout << Chip" or "sstr << Chip"
+    void factor_value(double& factor);
+    //void print();
+    //ostream& operator<<(); //todo: make possible "cout << Chip" or "sstr << Chip"
+    friend ostream& operator<<(ostream& os, const Chip& chip);
 
-
+    //get_ methods
+    int get_value();
+    int get_amount();
 
 };
+
+
 
 #endif	/* _CHIP_H */
 
