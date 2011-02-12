@@ -20,7 +20,7 @@ class Bank
         double interest;
     public:
         void run(); //passes control to 'cui'
-        int sell(); //sells chips to player
+        void sell(); //sells chips to player
         void inflation(double factor);
         void add_chip(Chip& chip);
         int get_balance(); //return the value of all chips
