@@ -1,9 +1,5 @@
-/*
- * File:   Chip.cpp
- * Author: Felix
- *
- * Created on 7. Februar 2011, 15:11
- */
+/* Copyright (C) 2011 by Felix Wiemuth
+   This code is licensed under the GNU GENERAL PUBLIC LICENSE http://www.gnu.org/licenses/gpl.txt */
 
 #include "Chip.h"
 

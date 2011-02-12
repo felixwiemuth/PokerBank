@@ -1,9 +1,5 @@
-/*
- * File:   main.cpp
- * Author: Felix Wiemuth
- *
- * Created on 7. Februar 2011, 15:00
- */
+/* Copyright (C) 2011 by Felix Wiemuth
+   This code is licensed under the GNU GENERAL PUBLIC LICENSE http://www.gnu.org/licenses/gpl.txt */
 
 //#include <stdlib.h>
 #include <iostream>
@@ -15,7 +11,8 @@ using namespace std;
 /*
  *
  */
-int main(/*int argc, char** argv*/) {
+int main(/*int argc, char** argv*/)
+{
     Bank bank;
     Bank bank2;
     cout << "Banks balance: " << bank2.get_balance() << endl;
