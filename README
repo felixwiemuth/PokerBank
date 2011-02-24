@@ -1,0 +1,35 @@
+PokerBank - Copyright (C) 2011 by Felix Wiemuth
+===============================================
+["CUI" by definition: "Character-based User Interface"]
+
+---------
+ License
+---------
+
+GNU GENERAL PUBLIC LICENSE http://www.gnu.org/licenses/gpl.txt
+
+
+-----------
+ Libraries
+-----------
+Required Libraries: - boost (http://www.boost.org/)
+						- boost/algorithm/string/split.hpp
+						- boost/lexical_cast.hpp
+					- SimpleCUI (https://github.com/felixwiemuth/SimpleCUI)
+					- SimpleLog (https://github.com/felixwiemuth/SimpleLog)
+
+-------------
+ Description
+-------------
+
+PokerBank is a C++ application that keeps account of the bank during a poker game.
+It manages to sell chips to players and buy them back.
+
+
+-------------
+ Features
+-------------
+
+- management (money, number of chips, different sorts of chips, ...)
+- interest on buy/sell
+- logging of activity
