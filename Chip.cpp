@@ -24,11 +24,6 @@ void Chip::factor_value(double& factor)
     value = value*factor;
 }
 
-//void Chip::print()
-//{
-//
-//}
-
 ostream& operator<<(ostream& os, const Chip& chip)
 {
     os << "name=" << chip.name << " value=" << chip.value << " amount=" << chip.amount;

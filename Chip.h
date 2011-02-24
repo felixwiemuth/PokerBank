@@ -19,8 +19,6 @@ class Chip
         int amount; //number of chips in bank
     public:
         void factor_value(double& factor);
-        //void print();
-        //ostream& operator<<(); //todo: make possible "cout << Chip" or "sstr << Chip"
         friend ostream& operator<<(ostream& os, const Chip& chip);
 
         //get_ methods
