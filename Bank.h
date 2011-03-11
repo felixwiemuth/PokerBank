@@ -16,11 +16,10 @@ class Bank
     public:
         Bank();
     private:
-        Cui<Bank> cui;
-        std::vector<Chip> chips;
-        double interest;
+        std::vector<Chip> chips; //available chip sorts
+        double interest_buy; //interest on buying chips from bank
+        double interest_sell; //interest on selling chips to bank
     public:
-        void run(); //passes control to 'cui'
         void sell(); //sells chips to player
         void inflation(double factor);
         void add_chip(Chip& chip);

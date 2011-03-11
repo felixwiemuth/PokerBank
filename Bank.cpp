@@ -9,15 +9,8 @@ using namespace std;
 
 Bank::Bank()
 {
-    //add CUI-handlers
-    cui["sell"].set(this, &Bank::sell);
-
-    interest = 0;
-}
-
-void Bank::run()
-{
-    cui.run();
+    interest_buy = 0;
+    interest_sell = 0;
 }
 
 void Bank::sell()
