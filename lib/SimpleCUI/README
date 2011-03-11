@@ -1,0 +1,33 @@
+SimpleCUI (Console User Interface) - Copyright (C) 2011 by Felix Wiemuth
+========================================================================
+["CUI" by definition: "Character-based User Interface"]
+
+---------
+ License
+---------
+
+GNU GENERAL PUBLIC LICENSE http://www.gnu.org/licenses/gpl.txt
+
+
+-----------
+ Libraries
+-----------
+Required Libraries: boost (http://www.boost.org/)
+						- boost/algorithm/string/split.hpp
+						- boost/lexical_cast.hpp
+
+-------------
+ Description
+-------------
+
+SimpleCUI is a C++ library that provides an automatic, character-based user interface.
+Once included only an object of "Cui" has to be defined, commands with respective
+methods to be passed and the "run()" method to be called.
+Then your own program can be controlled by the user over SimpleCUI.
+
+
+-------------
+ Examples
+-------------
+
+See file "main.cpp" for documented demonstration of using SimpleCUI!
