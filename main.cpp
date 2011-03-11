@@ -13,7 +13,7 @@ using namespace std;
  */
 int main(/*int argc, char** argv*/)
 {
-    Bank bank;
+    Bank bank();
     Bank bank2;
     cout << "Banks balance: " << bank2.get_balance() << endl;
     Chip c1(100, "MaanxD", 5);
