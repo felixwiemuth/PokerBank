@@ -6,7 +6,7 @@
 
 #include "Chip.h"
 
-#include "lib/felixwiemuth-CUI-v1.0.1-0-ga9cb660/Cui.h"
+#include "lib/SimpleCUI/Cui.h"
 #include "lib/SimpleLog/Log.h"
 #include <vector>
 
