@@ -4,6 +4,23 @@
 #ifndef PLAYER_H_INCLUDED
 #define PLAYER_H_INCLUDED
 
+#include <string>
+
+class Player
+{
+    static int nextid;
+    public:
+        Player();
+        Player(std::string name);
+    private:
+        std::string name;
+        int id;
+    public:
+
+    private:
+        void init();
+};
+
 
 
 #endif // PLAYER_H_INCLUDED
