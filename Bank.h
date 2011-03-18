@@ -16,6 +16,8 @@ class Bank
     public:
         Bank();
     private:
+        Log syslog(); //log to log everything
+        Log log(); //log to log bank activity
         std::vector<Chip> chips; //available chip sorts
         double interest_buy; //interest on buying chips from bank
         double interest_sell; //interest on selling chips to bank

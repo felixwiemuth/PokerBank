@@ -11,6 +11,7 @@ Bank::Bank()
 {
     interest_buy = 0;
     interest_sell = 0;
+    log.set_remote(&syslog);
 }
 
 void Bank::sell()
