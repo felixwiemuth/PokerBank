@@ -5,6 +5,7 @@
 #define	_BANK_H_
 
 #include "Chip.h"
+#include "Player.h"
 
 #include "lib/SimpleCUI/Cui.h"
 #include "lib/SimpleLog/Log.h"
@@ -19,7 +20,7 @@ class Bank
     public:
         Bank();
     private:
-        struct Player{int x;}players;
+        vector<Player> players; //TODO in methods below players can write #XXX instead of name, with "XXX" being their registred id or name
         Log syslog; //log to log everything
         Log log; //log to log bank activity
         std::vector<Chip> chips; //available chip sorts
