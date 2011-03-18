@@ -14,7 +14,22 @@ Bank::Bank()
     log.set_remote(&syslog);
 }
 
-void Bank::sell()
+void Bank::buy_cui(std::string in)
+{
+
+}
+
+void Bank::buy(std::string name, std::vector<int> buychips)
+{
+
+}
+
+void Bank::sell_cui(std::string in)
+{
+
+}
+
+void Bank::sell(string name, vector<int> sellchips)
 {
     cout << "Selling" << endl;
 }
@@ -27,7 +42,6 @@ void Bank::inflation(double factor)
 void Bank::add_chip(Chip& chip)
 {
     chips.push_back(chip);
-
 }
 
 int Bank::get_balance() {

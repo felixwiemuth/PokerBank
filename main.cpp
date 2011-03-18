@@ -16,7 +16,7 @@ int main(/*int argc, char** argv*/)
     Cui<Bank> cui; //CUI as user interface
     Bank bank;
     //add CUI-handlers
-    cui["sell"].set(&bank, &Bank::sell);
+    //cui["sell"].set(&bank, &Bank::sell);
     cui.run();
 
 

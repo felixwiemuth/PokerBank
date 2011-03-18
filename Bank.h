@@ -10,19 +10,26 @@
 #include "lib/SimpleLog/Log.h"
 #include <vector>
 
+//note: every public method should be given to CUI //TODO or mark methods that should be given to CUI -- marked with "***CUI***"
+//      the "cui_X" methods translate the users input to the corresponding "X" method
+
 
 class Bank
 {
     public:
         Bank();
     private:
-        Log syslog(); //log to log everything
-        Log log(); //log to log bank activity
+        struct Player{int x;}players;
+        Log syslog; //log to log everything
+        Log log; //log to log bank activity
         std::vector<Chip> chips; //available chip sorts
         double interest_buy; //interest on buying chips from bank
         double interest_sell; //interest on selling chips to bank
     public:
-        void sell(); //sells chips to player
+        void buy_cui(std::string in); //from of 'in': "[name] [n1]x[c1] [n2]x[c2] ..." n = amount, c = chip value
+        void buy(std::string name, std::vector<int> buychips); //player 'name' buys 'buychips[n]' chips of sort 'chips[n]'
+        void sell_cui(std::string in);
+        void sell(std::string name, std::vector<int> buychips); //player 'name' sells 'sellchips[n]' chips of sort 'chips[n]'
         void inflation(double factor);
         void add_chip(Chip& chip);
         int get_balance(); //return the value of all chips
