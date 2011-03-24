@@ -13,9 +13,11 @@ int main(/*int argc, char** argv*/)
 {
     Cui<Bank> cui; //CUI as user interface
     Bank bank;
+    bank.add_chip(Chip(50, "red", 200));
+
     //add CUI-handlers
     cui["buy"].set(&bank, 0, &Bank::buy_cui);
-    //cui.run();
+    cui.run();
 
 
 //    Bank bank2;
