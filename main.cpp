@@ -8,22 +8,20 @@
 
 using namespace std;
 
-/*
- *
- */
+
 int main(/*int argc, char** argv*/)
 {
     Cui<Bank> cui; //CUI as user interface
     Bank bank;
     //add CUI-handlers
-    //cui["sell"].set(&bank, &Bank::sell);
-    cui.run();
+    cui["buy"].set(&bank, 0, &Bank::buy_cui);
+    //cui.run();
 
 
-    Bank bank2;
-    cout << "Banks balance: " << bank2.get_balance() << endl;
-    Chip c1(100, "MaanxD", 5);
-    cout << "Chip 1: " << c1;
+//    Bank bank2;
+//    cout << "Banks balance: " << bank2.get_balance() << endl;
+//    Chip c1(100, "MaanxD", 5);
+//    cout << "Chip 1: " << c1;
     return 0;
 }
 
