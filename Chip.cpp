@@ -19,6 +19,14 @@ Chip::Chip(int value, std::string name, int amount)
     this->amount = amount;
 }
 
+bool Chip::reduce_amount(int n)
+{
+    if (amount < n)
+        return false;
+    amount -= n;
+    return true;
+}
+
 void Chip::factor_value(double& factor)
 {
     value = value*factor;
