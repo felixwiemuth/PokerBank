@@ -27,13 +27,15 @@ class Bank
         double interest_buy; //interest on buying chips from bank
         double interest_sell; //interest on selling chips to bank
     public:
-        void buy_cui(std::string in); //from of 'in': "[name] [n1]x[c1] [n2]x[c2] ..." n = amount, c = chip value
+        void buy_cui(std::vector<std::string> in); //from of 'in': "[name] [n1]x[c1] [n2]x[c2] ..." n = amount, c = chip value
         void buy(std::string name, std::vector<int> buychips); //player 'name' buys 'buychips[n]' chips of sort 'chips[n]'
         void sell_cui(std::string in);
         void sell(std::string name, std::vector<int> buychips); //player 'name' sells 'sellchips[n]' chips of sort 'chips[n]'
         void inflation(double factor);
         void add_chip(Chip& chip);
         int get_balance(); //return the value of all chips
+    private:
+
 };
 
 #endif	/* _BANK_H */
