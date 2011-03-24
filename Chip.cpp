@@ -38,6 +38,11 @@ ostream& operator<<(ostream& os, const Chip& chip)
     return os;
 }
 
+bool operator<(const Chip& c1, const Chip& c2)
+{
+    return (c1.value < c2.value);
+}
+
 int Chip::get_value()
 {
     return value;
