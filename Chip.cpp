@@ -43,6 +43,11 @@ bool operator<(const Chip& c1, const Chip& c2)
     return (c1.value < c2.value);
 }
 
+const int& Chip::operator[](int i)
+{
+    return amount;
+}
+
 int Chip::get_value()
 {
     return value;

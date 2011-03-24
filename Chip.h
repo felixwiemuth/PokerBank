@@ -22,6 +22,7 @@ class Chip
         void factor_value(double& factor);
         friend ostream& operator<<(ostream& os, const Chip& chip);
         friend bool operator<(const Chip& c1, const Chip& c2);
+        const int& operator[](int i);
 
         //get_ methods
         int get_value();
