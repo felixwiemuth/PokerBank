@@ -15,6 +15,7 @@ Bank::Bank()
     interest_buy = 0;
     interest_sell = 0;
     log.set_remote(&syslog);
+    log.echo_off();
 }
 
 void Bank::buy_cui(vector<string> in)
@@ -24,7 +25,7 @@ void Bank::buy_cui(vector<string> in)
         //TODO ERR MSG
         return;
     }
-    vector<int> buychips(chips.size());
+    vector< pair<int, int> > buychips(chips.size());
     //split words fo input in the two numbers: "4x50" --> n[0]=4 n[1] =50
     for (vector<string>::iterator it = in.begin()+1; it != in.end(); ++it)
     {
@@ -47,34 +48,43 @@ void Bank::buy_cui(vector<string> in)
             continue;
         }
         //TODO add vals to buychips
+        buychips.push_back(pair<int, int>(amount, value));
     }
     buy(in[0], buychips);
 }
 
-void Bank::buy(string name, vector<int> buychips)
+void Bank::buy(string name, vector< pair<int, int> > buychips)
 {
     stringstream sstr;
     int sum = 0;
     sstr << name + " bought";
-    for(int i = 0; i < buychips.size(); i++)
+    for(vector< pair<int, int> >::iterator it = buychips.begin(); it != buychips.end(); ++it)
     {
-        if (buychips[i] == 0) //buy no chips of this sort
+        if (it->first == 0) //buy no chips of this sort
             continue;
-        //check if intended amount of chips available
-        if (!chips[i].reduce_amount(buychips[i]))
+        //check if sort exists
+        if (chips.find(it->second) == chips.end())
         {
             stringstream err;
-            err << "Could not buy " << buychips[i] << " chips of sort '" << chips[i].get_value() << "': only " << chips[i].get_amount() << " chips available!";
+            err << "Sort '" << it->second << "' does not exist!";
+            syslog.err(err.str());
+            continue;
+        }
+        //check if intended amount of chips available
+        if (!chips[it->second].reduce_amount(it->first))
+        {
+            stringstream err;
+            err << "Could not buy " << it->first << " chips of sort '" << it->second << "': only " << chips[it->second] << " chips available!";
             syslog.err(err.str());
             continue;
         }
         //update log entry
-        int add = buychips[i]*chips[i].get_value();
+        int add = it->first * it->second;
         sum += add;
-        sstr << " " << buychips[i] << "x" << chips[i].get_value() << " (" << add << ");";
+        sstr << " " << it->first << "x" << it->second << " (" << add << ");";
     }
     //put log entry
-    sstr << " sum: " << sum;
+    sstr << " resulting amount: " << sum;
     log.add(sstr.str());
 }
 
@@ -93,15 +103,15 @@ void Bank::inflation(double factor)
 
 }
 
-void Bank::add_chip(Chip& chip)
+void Bank::add_chip(Chip chip)
 {
-    chips.push_back(chip);
+    chips[chip.get_value()] = chip;
 }
 
 int Bank::get_balance() {
     int ret = 0;
-    for (vector<Chip>::iterator it = chips.begin(); it != chips.end(); ++it) {
-        ret += it->get_amount() * it->get_value();
+    for (map<int, Chip>::iterator it = chips.begin(); it != chips.end(); ++it) {
+        ret += it->second.get_amount() * it->second.get_value();
     }
     return ret;
 }

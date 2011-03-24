@@ -10,6 +10,7 @@
 #include "lib/SimpleCUI/Cui.h"
 #include "lib/SimpleLog/Log.h"
 #include <vector>
+#include <map>
 
 //note: every public method should be given to CUI //TODO or mark methods that should be given to CUI -- marked with "***CUI***"
 //      the "cui_X" methods translate the users input to the corresponding "X" method
@@ -23,16 +24,16 @@ class Bank
         vector<Player> players; //TODO in methods below players can write #XXX instead of name, with "XXX" being their registred id or name
         Log syslog; //log to log everything
         Log log; //log to log bank activity
-        std::vector<Chip> chips; //available chip sorts
+        std::map<int, Chip> chips; //available chip sorts
         double interest_buy; //interest on buying chips from bank
         double interest_sell; //interest on selling chips to bank
     public:
         void buy_cui(std::vector<std::string> in); //from of 'in': "[name] [n1]x[c1] [n2]x[c2] ..." n = amount, c = chip value
-        void buy(std::string name, std::vector<int> buychips); //player 'name' buys 'buychips[n]' chips of sort 'chips[n]'
+        void buy(std::string name, std::vector< std::pair<int, int> > buychips); //player 'name' buys 'buychips[n]' chips of sort 'chips[n]'
         void sell_cui(std::string in);
         void sell(std::string name, std::vector<int> buychips); //player 'name' sells 'sellchips[n]' chips of sort 'chips[n]'
         void inflation(double factor);
-        void add_chip(Chip& chip);
+        void add_chip(Chip chip);
         int get_balance(); //return the value of all chips
     private:
 
