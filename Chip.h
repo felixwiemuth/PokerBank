@@ -18,6 +18,7 @@ class Chip
         std::string name; //description of this chip type
         int amount; //number of chips in bank
     public:
+        void increase_amount (int n); //increases 'amount' by n
         bool reduce_amount(int n); //reduces 'amount' by 'n' -- returns 'true' when enough chips available ('amount>=n')
         void factor_value(double& factor);
         friend ostream& operator<<(ostream& os, const Chip& chip);

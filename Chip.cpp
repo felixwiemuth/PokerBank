@@ -19,6 +19,12 @@ Chip::Chip(int value, std::string name, int amount)
     this->amount = amount;
 }
 
+void Chip::increase_amount (int n)
+{
+    if (n > 0)
+        amount += n;
+}
+
 bool Chip::reduce_amount(int n)
 {
     if (amount < n)
