@@ -12,30 +12,30 @@
 #include <vector>
 #include <map>
 
-//note: every public method should be given to CUI //TODO or mark methods that should be given to CUI -- marked with "***CUI***"
-//      the "cui_X" methods translate the users input to the corresponding "X" method
-
+/* --- NOTE ---
+   the "cui_X" methods translate the users input to the corresponding "X" method
+   and should be given to "CUI" as user interface */
 
 class Bank
 {
     public:
         Bank();
     private:
-        vector<Player> players; //TODO in methods below players can write #XXX instead of name, with "XXX" being their registred id or name
+        std::vector<Player> players; //TODO in methods below players can write #XXX instead of name, with "XXX" being their registred id or name
         Log syslog; //log to log everything
         Log log; //log to log bank activity
         std::map<int, Chip> chips; //available chip sorts
         double interest_buy; //interest on buying chips from bank
         double interest_sell; //interest on selling chips to bank
     public:
-        void buy_cui(std::vector<std::string> in); //from of 'in': "[name] [n1]x[c1] [n2]x[c2] ..." n = amount, c = chip value
-        void buy(std::string name, std::vector< std::pair<int, int> > buychips); //player 'name' buys 'buychips[n]' chips of sort 'chips[n]'
-        void sell_cui(std::string in);
-        void sell(std::string name, std::vector<int> buychips); //player 'name' sells 'sellchips[n]' chips of sort 'chips[n]'
+        void buy_cui(std::vector<std::string> in); //CUI api to buy chips -- form of 'in': "[name] [n1]x[c1] [n2]x[c2] ..." n = amount, c = chip value
+        void sell_cui(std::vector<std::string> in); //CUI api to sell chips -- form of 'in': "[name] [n1]x[c1] [n2]x[c2] ..." n = amount, c = chip value
         void inflation(double factor);
         void add_chip(Chip chip);
-        int get_balance(); //return the value of all chips
+        int get_balance(); //return the value of all chips together
     private:
+        std::vector< std::pair<int, int> > str_to_chips(std::vector<std::string>::iterator first, std::vector<std::string>::iterator last); //convert input format of chips to internal format
+        void buy_sell(bool buy, std::string name, std::vector< std::pair<int, int> > buychips); //player 'name' buys ('buy==true') or sells ('buy==false') 'sellchips[n]' chips of sort 'chips[n]'
 
 };
 
