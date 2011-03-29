@@ -5,6 +5,10 @@
 
 #include <iostream>
 
+
+using namespace std;
+
+
 Chip::Chip()
 {
     this->value = 0;

@@ -6,7 +6,7 @@
 
 #include <string>
 
-using namespace std;
+
 
 class Chip
 {
@@ -21,7 +21,7 @@ class Chip
         void increase_amount (int n); //increases 'amount' by n
         bool reduce_amount(int n); //reduces 'amount' by 'n' -- returns 'true' when enough chips available ('amount>=n')
         void factor_value(double& factor);
-        friend ostream& operator<<(ostream& os, const Chip& chip);
+        friend std::ostream& operator<<(std::ostream& os, const Chip& chip);
         friend bool operator<(const Chip& c1, const Chip& c2);
         const int& operator[](int i);
 
