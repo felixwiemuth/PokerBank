@@ -29,12 +29,15 @@ class Bank
         double interest_buy; //interest on buying chips from bank
         double interest_sell; //interest on selling chips to bank
     public:
+        /* --- CUI methods --- */
         void buy_cui(std::vector<std::string> in); //CUI api to buy chips -- form of 'in': "[name] [n1]x[c1] [n2]x[c2] ..." n = amount, c = chip value
         void sell_cui(std::vector<std::string> in); //CUI api to sell chips -- form of 'in': "[name] [n1]x[c1] [n2]x[c2] ..." n = amount, c = chip value
+        /* --- methods --- */
         //void inflation(double factor);
         void add_money(int amount); //add 'amount' money to the bank
         bool take_money(int amount); //takes 'amount' money from the bank -- returns 'true' if enough money available to take 'amount'
         void add_chip(Chip chip);
+        void remove_chip(int value); //removes chip sort with value 'value'
         int get_balance(); //return the value of all chips together
     private:
         std::vector< std::pair<int, int> > str_to_chips(std::vector<std::string>::iterator first, std::vector<std::string>::iterator last); //convert input format of chips to internal format

@@ -61,6 +61,11 @@ void Bank::add_chip(Chip chip)
     chips[chip.get_value()] = chip;
 }
 
+void Bank::remove_chip(int value)
+{
+    chips.erase(value);
+}
+
 int Bank::get_balance() {
     int ret = 0;
     for (map<int, Chip>::iterator it = chips.begin(); it != chips.end(); ++it) {
@@ -147,9 +152,15 @@ void Bank::buy_sell(bool buy, string name, vector< pair<int, int> > buychips)
     if (sum != 0)
     {
         if (buy)
+        {
             sstr << "\nPlease pay: ";
+            money += sum;
+        }
         else
+        {
             sstr << "\nYou get: ";
+            money -= sum;
+        }
         sstr << sum;
         log.add(sstr.str());
     }
