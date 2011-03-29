@@ -38,9 +38,22 @@ void Bank::sell_cui(vector<string> in)
     buy_sell(false, in[0], str_to_chips(in.begin()+1, in.end()));
 }
 
-void Bank::inflation(double factor)
-{
+//void Bank::inflation(double factor)
+//{
+//
+//}
 
+void Bank::add_money(int amount)
+{
+    money += amount;
+}
+
+bool Bank::take_money(int amount)
+{
+    if (money < amount)
+        return false;
+    money -= amount;
+    return true;
 }
 
 void Bank::add_chip(Chip chip)

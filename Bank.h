@@ -21,6 +21,7 @@ class Bank
     public:
         Bank();
     private:
+        int money; //money belonging to the bank
         std::vector<Player> players; //TODO in methods below players can write #XXX instead of name, with "XXX" being their registred id or name
         Log syslog; //log to log everything
         Log log; //log to log bank activity
@@ -30,7 +31,9 @@ class Bank
     public:
         void buy_cui(std::vector<std::string> in); //CUI api to buy chips -- form of 'in': "[name] [n1]x[c1] [n2]x[c2] ..." n = amount, c = chip value
         void sell_cui(std::vector<std::string> in); //CUI api to sell chips -- form of 'in': "[name] [n1]x[c1] [n2]x[c2] ..." n = amount, c = chip value
-        void inflation(double factor);
+        //void inflation(double factor);
+        void add_money(int amount); //add 'amount' money to the bank
+        bool take_money(int amount); //takes 'amount' money from the bank -- returns 'true' if enough money available to take 'amount'
         void add_chip(Chip chip);
         int get_balance(); //return the value of all chips together
     private:
