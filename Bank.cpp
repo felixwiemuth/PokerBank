@@ -43,6 +43,15 @@ void Bank::sell_cui(vector<string> in)
 //
 //}
 
+void Bank::set_interest_buy(double interest)
+{
+    interest_buy = interest;
+}
+void Bank::set_interest_sell(double interest)
+{
+    interest_sell = interest;
+}
+
 void Bank::add_money(int amount)
 {
     money += amount;
@@ -110,7 +119,7 @@ vector< pair<int, int> > Bank::str_to_chips(vector<string>::iterator first, vect
 void Bank::buy_sell(bool buy, string name, vector< pair<int, int> > buychips)
 {
     stringstream sstr;
-    int sum = 0;
+    int brutto = 0;
     sstr << name;
     if (buy)
         sstr << " bought";
@@ -145,23 +154,28 @@ void Bank::buy_sell(bool buy, string name, vector< pair<int, int> > buychips)
 
         //update log entry
         int add = it->first * it->second;
-        sum += add;
+        brutto += add;
         sstr << " " << it->first << "x" << it->second << " (" << add << ");";
     }
     //put log entry
-    if (sum != 0)
+    if (brutto != 0)
     {
+        int interest, netto;
         if (buy)
         {
-            sstr << "\nPlease pay: ";
-            money += sum;
+            interest = brutto * interest_buy;
+            netto = brutto + interest;
+            money += netto;
+            sstr << "\n***  Result: " << brutto << "  ***  Interest(" << interest_buy*100 << "%): " << interest << "  ***  Please pay: ";
         }
         else
         {
-            sstr << "\nYou get: ";
-            money -= sum;
+            interest = brutto * interest_sell;
+            netto = brutto - interest;
+            money -= netto;
+            sstr << "\n***  Result: " << brutto << "  ***  Interest(" << interest_sell*100 << "%): " << interest << "  ***  You get: ";
         }
-        sstr << sum;
+        sstr << netto;
         log.add(sstr.str());
     }
     else
