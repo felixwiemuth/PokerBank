@@ -17,6 +17,7 @@ int main(/*int argc, char** argv*/)
 
     //add CUI-handlers
     cui["buy"].set(&bank, 0, &Bank::buy_cui);
+    cui["sell"].set(&bank, 0, &Bank::sell_cui);
     cui.run();
 
 
