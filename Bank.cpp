@@ -39,6 +39,29 @@ void Bank::cui_sell(vector<string> in)
     buy_sell(false, in[0], str_to_chips(in.begin()+1, in.end()));
 }
 
+void Bank::cui_add_money(vector<string> in)
+{
+    if (in.size() < 2)
+    {
+        syslog.err("Expected two arguments: you must specify a value and a message!");
+        return;
+    }
+    try
+    {
+        add_money(boost::lexical_cast<int>(in[0]));
+    }
+    catch (boost::bad_lexical_cast&)
+    {
+        syslog.err("The first value has to be numeric!");
+        return;
+    }
+    stringstream sstr;
+    sstr << "Added " << in[0] << " to bank: " << in[1];
+    for (vector<string>::iterator it = in.begin()+2; it != in.end(); ++it)
+        sstr << " " << *it;
+    log.add(sstr.str());
+}
+
 //void Bank::inflation(double factor)
 //{
 //

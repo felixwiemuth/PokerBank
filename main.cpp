@@ -18,6 +18,7 @@ int main(/*int argc, char** argv*/)
     //add CUI-handlers
     cui["buy"].set(&bank, 0, &Bank::cui_buy).set_help("Syntax: [name] [n1]x[c1] [n2]x[c2] ... n = amount, c = chip value");
     cui["sell"].set(&bank, 0, &Bank::cui_sell);
+    cui["add-money"].set(&bank, 0, &Bank::cui_add_money);
     cui["money"].set(&bank, &Bank::show_money);
     cui["chips"].set(&bank, &Bank::show_chips);
     cui["value"].set(&bank, &Bank::show_chip_value);

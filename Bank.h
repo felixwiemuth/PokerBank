@@ -34,6 +34,7 @@ class Bank
         /* --- CUI methods --- */
         void cui_buy(std::vector<std::string> in); //CUI api to buy chips -- form of 'in': "[name] [n1]x[c1] [n2]x[c2] ..." n = amount, c = chip value
         void cui_sell(std::vector<std::string> in); //CUI api to sell chips -- form of 'in': "[name] [n1]x[c1] [n2]x[c2] ..." n = amount, c = chip value
+        void cui_add_money(std::vector<std::string> in);
         /* --- methods --- */
         //void inflation(double factor);
         void set_interest_buy(double interest); //set 'interest_buy' to 'interest'
