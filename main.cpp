@@ -16,8 +16,14 @@ int main(/*int argc, char** argv*/)
     bank.add_chip(Chip(50, "red", 200));
 
     //add CUI-handlers
-    cui["buy"].set(&bank, 0, &Bank::buy_cui);
-    cui["sell"].set(&bank, 0, &Bank::sell_cui);
+    cui["buy"].set(&bank, 0, &Bank::cui_buy).set_help("Syntax: [name] [n1]x[c1] [n2]x[c2] ... n = amount, c = chip value");
+    cui["sell"].set(&bank, 0, &Bank::cui_sell);
+    cui["money"].set(&bank, &Bank::show_money);
+    cui["chips"].set(&bank, &Bank::show_chips);
+    cui["value"].set(&bank, &Bank::show_chip_value);
+    cui["status"].set(&bank, &Bank::show_bank_status);
+    // ||to add new copy:|| cui[""].set(&bank, &Bank::);
+    cui["e"].set(&bank, &Bank::exit_program);
     bank.set_interest_buy(0.1);
     bank.set_interest_sell(0.2);
     cui.run();

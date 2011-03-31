@@ -13,8 +13,10 @@
 #include <map>
 
 /* --- NOTE ---
-   the "cui_X" methods translate the users input to the corresponding "X" method
-   and should be given to "CUI" as user interface */
+   The "cui_X" methods translate the users input to the corresponding "X" method
+   and should be given to "CUI" as user interface.
+   Additional methods without parameters can be given to "CUI" without anything special to care about.
+*/
 
 class Bank
 {
@@ -30,8 +32,8 @@ class Bank
         double interest_sell; //interest on selling chips to bank
     public:
         /* --- CUI methods --- */
-        void buy_cui(std::vector<std::string> in); //CUI api to buy chips -- form of 'in': "[name] [n1]x[c1] [n2]x[c2] ..." n = amount, c = chip value
-        void sell_cui(std::vector<std::string> in); //CUI api to sell chips -- form of 'in': "[name] [n1]x[c1] [n2]x[c2] ..." n = amount, c = chip value
+        void cui_buy(std::vector<std::string> in); //CUI api to buy chips -- form of 'in': "[name] [n1]x[c1] [n2]x[c2] ..." n = amount, c = chip value
+        void cui_sell(std::vector<std::string> in); //CUI api to sell chips -- form of 'in': "[name] [n1]x[c1] [n2]x[c2] ..." n = amount, c = chip value
         /* --- methods --- */
         //void inflation(double factor);
         void set_interest_buy(double interest); //set 'interest_buy' to 'interest'
@@ -41,6 +43,13 @@ class Bank
         void add_chip(Chip chip);
         void remove_chip(int value); //removes chip sort with value 'value'
         int get_balance(); //return the value of all chips together
+        //methods to show (log) status information
+        void show_money();
+        void show_chip_value();
+        void show_chips();
+        void show_bank_status(); //show every information if 'show_' methods together
+
+        void exit_program(); //leave program
     private:
         std::vector< std::pair<int, int> > str_to_chips(std::vector<std::string>::iterator first, std::vector<std::string>::iterator last); //convert input format of chips to internal format
         void buy_sell(bool buy, std::string name, std::vector< std::pair<int, int> > buychips); //player 'name' buys ('buy==true') or sells ('buy==false') 'sellchips[n]' chips of sort 'chips[n]'

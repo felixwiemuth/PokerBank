@@ -14,11 +14,12 @@ Bank::Bank()
 {
     interest_buy = 0;
     interest_sell = 0;
+    money = 0;
     log.set_remote(&syslog);
     log.echo_off();
 }
 
-void Bank::buy_cui(vector<string> in)
+void Bank::cui_buy(vector<string> in)
 {
     if (in.size() < 2)
     {
@@ -28,7 +29,7 @@ void Bank::buy_cui(vector<string> in)
     buy_sell(true, in[0], str_to_chips(in.begin()+1, in.end()));
 }
 
-void Bank::sell_cui(vector<string> in)
+void Bank::cui_sell(vector<string> in)
 {
     if (in.size() < 2)
     {
@@ -47,6 +48,7 @@ void Bank::set_interest_buy(double interest)
 {
     interest_buy = interest;
 }
+
 void Bank::set_interest_sell(double interest)
 {
     interest_sell = interest;
@@ -75,12 +77,52 @@ void Bank::remove_chip(int value)
     chips.erase(value);
 }
 
-int Bank::get_balance() {
+int Bank::get_balance()
+{
     int ret = 0;
-    for (map<int, Chip>::iterator it = chips.begin(); it != chips.end(); ++it) {
+    for (map<int, Chip>::iterator it = chips.begin(); it != chips.end(); ++it)
+    {
         ret += it->second.get_amount() * it->second.get_value();
     }
     return ret;
+}
+
+void Bank::show_money()
+{
+    stringstream sstr;
+    sstr << "Money in bank: " << money;
+    log.add(sstr.str());
+}
+
+void Bank::show_chip_value()
+{
+    stringstream sstr;
+    sstr << "Value of all chips in bank: " << get_balance();
+    log.add(sstr.str());
+}
+
+void Bank::show_chips()
+{
+    stringstream sstr;
+    sstr << "Chips in bank:";
+    for (map<int, Chip>::iterator it = chips.begin(); it != chips.end(); ++it)
+    {
+        sstr << "\n" << it->second;
+    }
+    log.add(sstr.str());
+}
+
+void Bank::show_bank_status()
+{
+    show_money();
+    show_chip_value();
+    show_chips();
+}
+
+void Bank::exit_program()
+{
+    syslog.add("Bye-bye...");
+    exit(0);
 }
 
 vector< pair<int, int> > Bank::str_to_chips(vector<string>::iterator first, vector<string>::iterator last)
@@ -166,14 +208,14 @@ void Bank::buy_sell(bool buy, string name, vector< pair<int, int> > buychips)
             interest = brutto * interest_buy;
             netto = brutto + interest;
             money += netto;
-            sstr << "\n***  Result: " << brutto << "  ***  Interest(" << interest_buy*100 << "%): " << interest << "  ***  Please pay: ";
+            sstr << "\nResult: " << brutto << "  ***  Interest(" << interest_buy*100 << "%): " << interest << "  ***  Please pay: ";
         }
         else
         {
             interest = brutto * interest_sell;
             netto = brutto - interest;
             money -= netto;
-            sstr << "\n***  Result: " << brutto << "  ***  Interest(" << interest_sell*100 << "%): " << interest << "  ***  You get: ";
+            sstr << "\nResult: " << brutto << "  ***  Interest(" << interest_sell*100 << "%): " << interest << "  ***  You get: ";
         }
         sstr << netto;
         log.add(sstr.str());
