@@ -22,21 +22,15 @@ Bank::Bank()
 
 void Bank::cui_buy(vector<string> in)
 {
-    if (in.size() < 2)
-    {
-        syslog.err("You must at least specify a name and one type of chips to buy!");
+    if (!check_arguments(in.size(), 2))
         return;
-    }
     buy_sell(true, in[0], str_to_chips(in.begin()+1, in.end()));
 }
 
 void Bank::cui_sell(vector<string> in)
 {
-    if (in.size() < 2)
-    {
-        syslog.err("You must at least specify a name and one type of chips to sell!");
+    if (!check_arguments(in.size(), 2))
         return;
-    }
     buy_sell(false, in[0], str_to_chips(in.begin()+1, in.end()));
 }
 
