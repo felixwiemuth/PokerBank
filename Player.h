@@ -16,6 +16,7 @@ class Player
         std::string name;
         int id;
     public:
+        std::string tostr();
 
     private:
         void init();
