@@ -14,6 +14,7 @@ int main(/*int argc, char** argv*/)
     Cui<Bank> cui; //CUI as user interface
     Bank bank;
     bank.add_chip(Chip(50, "red", 200));
+    bank.add_player("Dieter");
 
     //add CUI-handlers
     cui["buy"].set(&bank, 0, &Bank::cui_buy).set_help("Syntax: [name] [n1]x[c1] [n2]x[c2] ... n = amount, c = chip value");
