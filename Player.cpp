@@ -19,11 +19,17 @@ Player::Player(std::string name)
     init();
 }
 
-string Player::tostr()
+string Player::tostr() const
 {
     stringstream sstr;
     sstr << name << " (ID" << id << ")";
     return sstr.str();
+}
+
+ostream& operator<<(ostream& os, const Player& p)
+{
+    os << p.tostr();
+    return os;
 }
 
 void Player::init()
