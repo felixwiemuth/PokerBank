@@ -2,7 +2,9 @@
    This code is licensed under the GNU GENERAL PUBLIC LICENSE http://www.gnu.org/licenses/gpl.txt */
 
 #include "Player.h"
+
 #include <sstream>
+#include <iomanip>
 
 using namespace std;
 
@@ -22,7 +24,7 @@ Player::Player(std::string name)
 string Player::tostr() const
 {
     stringstream sstr;
-    sstr << name << " (ID" << id << ")";
+    sstr << name << " (ID" << setfill('0') << setw(2) << id << ")";
     return sstr.str();
 }
 
