@@ -42,22 +42,34 @@ void Bank::cui_sell(vector<string> in)
 
 void Bank::cui_add_money(vector<string> in)
 {
-    if (in.size() < 2)
-    {
-        syslog.err("Expected two arguments: you must specify a value and a message!");
+    if (!check_arguments(2, in.size()))
         return;
-    }
-    try
-    {
-        add_money(boost::lexical_cast<int>(in[0]));
-    }
-    catch (boost::bad_lexical_cast&)
-    {
-        syslog.err("The first value has to be numeric!");
+    pair<bool, int> chk = str_to_int(in[0]);
+    if (chk.first == false)
         return;
-    }
+    add_money(chk.second);
     stringstream sstr;
     sstr << "Added " << in[0] << " to bank: " << in[1];
+    for (vector<string>::iterator it = in.begin()+2; it != in.end(); ++it)
+        sstr << " " << *it;
+    log.add(sstr.str());
+}
+
+void Bank::cui_take_money(vector<string> in)
+{
+    if (!check_arguments(2, in.size()))
+        return;
+    pair<bool, int> chk = str_to_int(in[0]);
+    if (chk.first == false)
+        return;
+    if (!take_money(chk.second))
+    {
+        stringstream sstr;
+        sstr << "Cannot take intended amount of money: bank only has " << money;
+        syslog.err(sstr.str());
+    }
+    stringstream sstr;
+    sstr << "Took " << in[0] << " from bank: " << in[1];
     for (vector<string>::iterator it = in.begin()+2; it != in.end(); ++it)
         sstr << " " << *it;
     log.add(sstr.str());
@@ -263,3 +275,31 @@ void Bank::buy_sell(bool buy, string name, vector< pair<int, int> > buychips)
 
 }
 
+bool Bank::check_arguments(size_t n, size_t is)
+{
+    if (n == is)
+        return true;
+    stringstream sstr;
+    sstr << "Expected " << n << " arguments!";
+    syslog.err(sstr.str());
+    return false;
+}
+
+std::pair<bool, int> Bank::str_to_int(std::string s)
+{
+    pair<bool, int> ret;
+    try
+    {
+        ret.second = boost::lexical_cast<int>(s);
+    }
+    catch (boost::bad_lexical_cast&)
+    {
+        stringstream sstr;
+        sstr << "'" << s << "' is not numeric!";
+        syslog.err(sstr.str());
+        ret.first = false;
+        return ret;
+    }
+    ret.first = true;
+    return ret;
+}
