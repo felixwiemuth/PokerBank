@@ -61,6 +61,7 @@ void Bank::cui_take_money(vector<string> in)
         stringstream sstr;
         sstr << "Cannot take intended amount of money: bank only has " << money;
         syslog.err(sstr.str());
+        return;
     }
     stringstream sstr;
     sstr << "Took " << in[0] << " from bank: " << in[1];
