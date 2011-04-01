@@ -41,8 +41,10 @@ class Bank
         void set_interest_sell(double interest);//set 'interest_sell' to 'interest'
         void add_money(int amount); //add 'amount' money to the bank
         bool take_money(int amount); //takes 'amount' money from the bank -- returns 'true' if enough money available to take 'amount'
+        void add_player(std::string name); //add a new player with name 'name' to 'players'
         void add_chip(Chip chip);
         void remove_chip(int value); //removes chip sort with value 'value'
+        std::vector<Player>::iterator check_player(std::string name); //returns iterator to player in 'players' if player with name 'name' existing
         int get_balance(); //return the value of all chips together
         //methods to show (log) status information
         void show_money();

@@ -6,6 +6,7 @@
 #include <boost/algorithm/string/split.hpp>
 #include <boost/lexical_cast.hpp>
 #include <iostream>
+#include <algorithm>
 
 
 using namespace std;
@@ -90,6 +91,11 @@ bool Bank::take_money(int amount)
     return true;
 }
 
+void Bank::add_player(string name)
+{
+    players.push_back(Player(name));
+}
+
 void Bank::add_chip(Chip chip)
 {
     chips[chip.get_value()] = chip;
@@ -98,6 +104,11 @@ void Bank::add_chip(Chip chip)
 void Bank::remove_chip(int value)
 {
     chips.erase(value);
+}
+
+vector<Player>::iterator Bank::check_player(string name)
+{
+    return find_if(players.begin(), players.end(), [&name](Player p) -> bool {return p.get_name() == name;});
 }
 
 int Bank::get_balance()
@@ -185,7 +196,11 @@ void Bank::buy_sell(bool buy, string name, vector< pair<int, int> > buychips)
 {
     stringstream sstr;
     int brutto = 0;
-    sstr << name;
+    vector<Player>::iterator p = check_player(name);
+    if (p != players.end())
+        sstr << *p;
+    else
+        sstr << name;
     if (buy)
         sstr << " bought";
     else
