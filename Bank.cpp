@@ -38,10 +38,10 @@ void Bank::cui_add_money(vector<string> in)
 {
     if (!check_arguments(in.size(), 2))
         return;
-    pair<bool, int> chk = convert_s<int>(in[0]);
-    if (chk.first == false)
+    int n;
+    if (!convert_s(in[0], n))
         return;
-    add_money(chk.second);
+    add_money(n);
     stringstream sstr;
     sstr << "Added " << in[0] << " to bank: " << in[1];
     for (vector<string>::iterator it = in.begin()+2; it != in.end(); ++it)
@@ -53,10 +53,10 @@ void Bank::cui_take_money(vector<string> in)
 {
     if (!check_arguments(in.size(), 2))
         return;
-    pair<bool, int> chk = convert_s<int>(in[0]);
-    if (chk.first == false)
+    int n;
+    if (!convert_s(in[0], n))
         return;
-    if (!take_money(chk.second))
+    if (!take_money(n))
     {
         stringstream sstr;
         sstr << "Cannot take intended amount of money: bank only has " << money;
@@ -68,6 +68,21 @@ void Bank::cui_take_money(vector<string> in)
     for (vector<string>::iterator it = in.begin()+2; it != in.end(); ++it)
         sstr << " " << *it;
     log.add(sstr.str());
+}
+
+void Bank::cui_set_interest_buy(vector<string> in)
+{
+    if (!check_arguments(in.size(), 1, 1))
+        return;
+    double d;
+    if (!convert_s<double>(in[0], d));
+        return;
+
+}
+
+void Bank::cui_set_interest_sell(vector<string> in)
+{
+
 }
 
 //void Bank::inflation(double factor)
@@ -293,21 +308,18 @@ bool Bank::check_arguments(size_t is, size_t min, size_t max)
     return false;
 }
 
-template<class T> pair<bool, T> Bank::convert_s(string s)
+template<class T> bool Bank::convert_s(string& source, T& var)
 {
-    pair<bool, T> ret;
     try
     {
-        ret.second = boost::lexical_cast<T>(s);
+        var = boost::lexical_cast<T>(source);
     }
     catch (boost::bad_lexical_cast&)
     {
         stringstream sstr;
-        sstr << "'" << s << "' is not numeric!";
+        sstr << "'" << source << "' has wrong type!";
         syslog.err(sstr.str());
-        ret.first = false;
-        return ret;
+        return false;
     }
-    ret.first = true;
-    return ret;
+    return true;
 }

@@ -36,6 +36,8 @@ class Bank
         void cui_sell(std::vector<std::string> in); //CUI api to sell chips -- form of 'in': "[name] [n1]x[c1] [n2]x[c2] ..." n = amount, c = chip value
         void cui_add_money(std::vector<std::string> in);
         void cui_take_money(std::vector<std::string> in);
+        void cui_set_interest_buy(std::vector<std::string> in);
+        void cui_set_interest_sell(std::vector<std::string> in);
         /* --- methods --- */
         //void inflation(double factor);
         void set_interest_buy(double interest); //set 'interest_buy' to 'interest'
@@ -58,7 +60,7 @@ class Bank
         std::vector< std::pair<int, int> > str_to_chips(std::vector<std::string>::iterator first, std::vector<std::string>::iterator last); //convert input format of chips to internal format
         void buy_sell(bool buy, std::string name, std::vector< std::pair<int, int> > buychips); //player 'name' buys ('buy==true') or sells ('buy==false') 'sellchips[n]' chips of sort 'chips[n]'
         bool check_arguments(size_t is, size_t min, size_t max = -1); //check if 'is' is between 'min' and 'max' ('max='-1' means no max), if not displays error message and returns 'false'
-        template<class T> std::pair<bool, T> convert_s(std::string s); //converts 's' to type 'T' (numeric) and shows error on failure -- returns: first: sucess, second: resulting number
+        template<class T> bool convert_s(std::string& source, T& var); //converts 'source' to type 'T' (numeric) and shows error on failure -- returns true on success
 
 };
 
