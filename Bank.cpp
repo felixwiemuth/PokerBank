@@ -42,9 +42,9 @@ void Bank::cui_sell(vector<string> in)
 
 void Bank::cui_add_money(vector<string> in)
 {
-    if (!check_arguments(2, in.size()))
+    if (!check_arguments(in.size(), 2))
         return;
-    pair<bool, int> chk = str_to_int(in[0]);
+    pair<bool, int> chk = convert_s<int>(in[0]);
     if (chk.first == false)
         return;
     add_money(chk.second);
@@ -57,9 +57,9 @@ void Bank::cui_add_money(vector<string> in)
 
 void Bank::cui_take_money(vector<string> in)
 {
-    if (!check_arguments(2, in.size()))
+    if (!check_arguments(in.size(), 2))
         return;
-    pair<bool, int> chk = str_to_int(in[0]);
+    pair<bool, int> chk = convert_s<int>(in[0]);
     if (chk.first == false)
         return;
     if (!take_money(chk.second))
@@ -275,22 +275,35 @@ void Bank::buy_sell(bool buy, string name, vector< pair<int, int> > buychips)
 
 }
 
-bool Bank::check_arguments(size_t n, size_t is)
+bool Bank::check_arguments(size_t is, size_t min, size_t max)
 {
-    if (n == is)
-        return true;
     stringstream sstr;
-    sstr << "Expected " << n << " arguments!";
+    sstr << "Expected ";
+    if (max == -1)
+        if (is >= min)
+            return true;
+        else
+            sstr << "at least " << min;
+    else if (is >= min && is <= max)
+        return true;
+    else
+    {
+        if (min == max)
+            sstr << min;
+        else
+            sstr << "between " << min << " and " << max;
+    }
+    sstr << " arguments!";
     syslog.err(sstr.str());
     return false;
 }
 
-std::pair<bool, int> Bank::str_to_int(std::string s)
+template<class T> pair<bool, T> Bank::convert_s(string s)
 {
-    pair<bool, int> ret;
+    pair<bool, T> ret;
     try
     {
-        ret.second = boost::lexical_cast<int>(s);
+        ret.second = boost::lexical_cast<T>(s);
     }
     catch (boost::bad_lexical_cast&)
     {
