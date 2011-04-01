@@ -21,6 +21,11 @@ Player::Player(std::string name)
     init();
 }
 
+string Player::get_name()
+{
+    return name;
+}
+
 string Player::tostr() const
 {
     stringstream sstr;
