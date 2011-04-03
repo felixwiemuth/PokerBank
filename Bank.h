@@ -58,7 +58,8 @@ class Bank
         void show_money();
         void show_chip_value();
         void show_chips();
-        void show_bank_status(); //show every information if 'show_' methods together
+        void show_bank_status(); //show every information if 'show_' methods (from above) together
+        void show_players();
 
         void exit_program(); //leave program
     private:

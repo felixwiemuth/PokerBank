@@ -237,9 +237,20 @@ void Bank::show_bank_status()
     show_chips();
 }
 
+void Bank::show_players()
+{
+    stringstream sstr;
+    sstr << "All players registred to bank:";
+    for (vector<Player>::iterator p = players.begin(); p != players.end(); ++p)
+    {
+        sstr << "\n" << p->tostr();
+    }
+    log.add(sstr.str());
+}
+
 void Bank::exit_program()
 {
-    syslog.add("Bye-bye...");
+    syslog.add("End running of PokerBank and leave program now...");
     exit(0);
 }
 

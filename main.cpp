@@ -31,6 +31,7 @@ int main(/*int argc, char** argv*/)
     cui["chips"].set(&bank, &Bank::show_chips);
     cui["value"].set(&bank, &Bank::show_chip_value);
     cui["status"].set(&bank, &Bank::show_bank_status);
+    cui["players"].set(&bank, &Bank::show_players);
     // ||to add new copy:|| cui[""].set(&bank, &Bank::);
     cui[""].set(&bank, &Bank::exit_program);
     bank.set_interest_buy(0.1);
