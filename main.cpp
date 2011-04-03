@@ -19,19 +19,19 @@ int main(/*int argc, char** argv*/)
     bank.add_player(player1);
 
     //add CUI-handlers
-    cui["buy"].set(&bank, 0, &Bank::cui_buy).set_help("Syntax: [name] [n1]x[c1] [n2]x[c2] ... n = amount, c = chip value");
-    cui["sell"].set(&bank, 0, &Bank::cui_sell);
-    cui["add-money"].set(&bank, 0, &Bank::cui_add_money);
-    cui["take-money"].set(&bank, 0, &Bank::cui_take_money);
-    cui["set-interest-buy"].set(&bank, 0, &Bank::cui_set_interest_buy);
-    cui["set-interest-sell"].set(&bank, 0, &Bank::cui_set_interest_sell);
-    cui["add-players"].set(&bank, 0, &Bank::cui_add_players);
-    cui["remove-players"].set(&bank, 0, &Bank::cui_remove_players);
-    cui["money"].set(&bank, &Bank::show_money);
-    cui["chips"].set(&bank, &Bank::show_chips);
-    cui["value"].set(&bank, &Bank::show_chip_value);
-    cui["status"].set(&bank, &Bank::show_bank_status);
-    cui["players"].set(&bank, &Bank::show_players);
+    cui["buy"].set(&bank, 0, &Bank::cui_buy).set_help("Buy chips from bank. Syntax: [name] [n1]x[c1] [n2]x[c2] ... n = amount, c = chip value");
+    cui["sell"].set(&bank, 0, &Bank::cui_sell).set_help("Sell chips to bank. Syntax: [name] [n1]x[c1] [n2]x[c2] ... n = amount, c = chip value");
+    cui["add-money"].set(&bank, 0, &Bank::cui_add_money).set_help("Add money to bank. Syntax: [amount] [message]");
+    cui["take-money"].set(&bank, 0, &Bank::cui_take_money).set_help("Take money from bank. Syntax: [amount] [message]");
+    cui["set-interest-buy"].set(&bank, 0, &Bank::cui_set_interest_buy).set_help("Set interest on purchase of chips. Syntax: [percent interest e.g. 0.05]");
+    cui["set-interest-sell"].set(&bank, 0, &Bank::cui_set_interest_sell).set_help("Set interest on selling of chips. Syntax: [percent interest e.g. 0.05]");
+    cui["add-players"].set(&bank, 0, &Bank::cui_add_players).set_help("Register new players to bank. Syntax: [name1] [name2] ...");
+    cui["remove-players"].set(&bank, 0, &Bank::cui_remove_players).set_help("Remove registered players from bank. Syntax: [name/id 1] [name/id 2] ...");
+    cui["money"].set(&bank, &Bank::show_money).set_help("Display money of bank.");
+    cui["chips"].set(&bank, &Bank::show_chips).set_help("Display all chips.");
+    cui["value"].set(&bank, &Bank::show_chip_value).set_help("Display the value of all chips together.");
+    cui["status"].set(&bank, &Bank::show_bank_status).set_help("Display status of bank.");
+    cui["players"].set(&bank, &Bank::show_players).set_help("Display players registered to bank.");
     // ||to add new copy:|| cui[""].set(&bank, &Bank::);
     cui[""].set(&bank, &Bank::exit_program);
     bank.set_interest_buy(0.1);
