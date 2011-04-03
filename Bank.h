@@ -39,6 +39,7 @@ class Bank
         void cui_set_interest_buy(std::vector<std::string> in);
         void cui_set_interest_sell(std::vector<std::string> in);
         void cui_add_players(std::vector<std::string> in);
+        void cui_remove_players(std::vector<std::string> in);
         /* --- methods --- */
         //void inflation(double factor);
         void set_interest_buy(double interest); //set 'interest_buy' to 'interest'
@@ -46,6 +47,7 @@ class Bank
         void add_money(int amount); //add 'amount' money to the bank
         bool take_money(int amount); //takes 'amount' money from the bank -- returns 'true' if enough money available to take 'amount'
         void add_player(std::string& name); //add a new player with name 'name' to 'players'
+        void remove_player(std::vector<Player>::iterator p); //remove player with iterator 'p' from 'players' -- use e.g. "remove_player(check_player("Jack"));"
         void add_chip(Chip& chip);
         void remove_chip(int value); //removes chip sort with value 'value'
         std::vector<Player>::iterator check_player(std::string name); //check if 'name' is a players name or id -- iterator to first matching player will be returned

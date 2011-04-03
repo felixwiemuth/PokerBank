@@ -26,6 +26,7 @@ int main(/*int argc, char** argv*/)
     cui["set-interest-buy"].set(&bank, 0, &Bank::cui_set_interest_buy);
     cui["set-interest-sell"].set(&bank, 0, &Bank::cui_set_interest_sell);
     cui["add-players"].set(&bank, 0, &Bank::cui_add_players);
+    cui["remove-players"].set(&bank, 0, &Bank::cui_remove_players);
     cui["money"].set(&bank, &Bank::show_money);
     cui["chips"].set(&bank, &Bank::show_chips);
     cui["value"].set(&bank, &Bank::show_chip_value);

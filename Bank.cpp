@@ -105,6 +105,28 @@ void Bank::cui_add_players(vector<string> in)//check if 'name' is a players name
         log.add(sstr.str());
     }
 }
+
+void Bank::cui_remove_players(vector<string> in)//check if 'name' is a players name or id -- iterator to first matching player will be returned
+{
+    if (!check_arguments(in.size(), 1))
+        return;
+    for (vector<string>::iterator it = in.begin(); it != in.end(); ++it)
+    {
+        stringstream sstr;
+        vector<Player>::iterator to_remove = check_player(*it);
+        if (to_remove != players.end())
+        {
+            sstr << "Removed player: " << *to_remove;
+            remove_player(to_remove);
+            log.add(sstr.str());
+        }
+        else
+        {
+            sstr << "No player found with name or id '" << *it << "'";
+            syslog.err(sstr.str());
+        }
+    }
+}
 //check if 'name' is a players name or id -- iterator to first matching player will be returned
 //void Bank::inflation(double factor)
 //{
@@ -137,6 +159,11 @@ bool Bank::take_money(int amount)
 void Bank::add_player(string& name)
 {
     players.push_back(Player(name));
+}
+
+void Bank::remove_player(vector<Player>::iterator p)
+{
+    players.erase(p);
 }
 
 void Bank::add_chip(Chip& chip)
