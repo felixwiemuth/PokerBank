@@ -127,7 +127,34 @@ void Bank::cui_remove_players(vector<string> in)//check if 'name' is a players n
         }
     }
 }
-//check if 'name' is a players name or id -- iterator to first matching player will be returned
+
+void Bank::cui_add_chips(vector<string> in)
+{
+    if (!check_arguments(in.size(), 3))
+        return;
+    for (int i = 0; (i+2) < in.size(); i++)
+    {
+        int amount, value;
+        if (! (convert_s(in[i], amount) && convert_s(in[i+2], value)))
+        {
+            stringstream sstr;
+            sstr << "Input '" << in[i] << " " << in[i+1] << " " << in[i+2] << "' is not correct to define a chip!";
+            syslog.err(sstr.str());
+            i += 2; //go to next group of three
+            continue;
+        }
+        add_chip(Chip(value, in[i+1], amount));
+        stringstream sstr;
+        sstr << "Added new chip: " << chips[value];
+        log.add(sstr.str());
+    }
+}
+
+void Bank::cui_remove_chips(vector<string> in)
+{
+
+}
+
 //void Bank::inflation(double factor)
 //{
 //
@@ -166,7 +193,7 @@ void Bank::remove_player(vector<Player>::iterator p)
     players.erase(p);
 }
 
-void Bank::add_chip(Chip& chip)
+void Bank::add_chip(Chip chip)
 {
     chips[chip.get_value()] = chip;
 }
