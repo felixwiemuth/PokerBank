@@ -17,6 +17,7 @@ class Player
         int id;
     public:
         std::string get_name();
+        int get_id();
         std::string tostr() const;
         friend std::ostream& operator<<(std::ostream& os, const Player& p);
 

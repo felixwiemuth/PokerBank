@@ -48,7 +48,7 @@ class Bank
         void add_player(std::string& name); //add a new player with name 'name' to 'players'
         void add_chip(Chip& chip);
         void remove_chip(int value); //removes chip sort with value 'value'
-        std::vector<Player>::iterator check_player(std::string name); //returns iterator to player in 'players' if player with name 'name' existing
+        std::vector<Player>::iterator check_player(std::string name); //check if 'name' is a players name or id -- iterator to first matching player will be returned
         int get_balance(); //return the value of all chips together
         std::string get_interest_buy(); //returns 'interest_buy' as string in form "xx%"
         std::string get_interest_sell(); //returns 'interest_sell' as string in form "xx%"

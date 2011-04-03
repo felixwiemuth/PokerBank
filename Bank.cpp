@@ -93,7 +93,7 @@ void Bank::cui_set_interest_sell(vector<string> in)
     interest_sell = d;
 }
 
-void Bank::cui_add_players(vector<string> in)
+void Bank::cui_add_players(vector<string> in)//check if 'name' is a players name or id -- iterator to first matching player will be returned
 {
     if (!check_arguments(in.size(), 1))
         return;
@@ -105,7 +105,7 @@ void Bank::cui_add_players(vector<string> in)
         log.add(sstr.str());
     }
 }
-
+//check if 'name' is a players name or id -- iterator to first matching player will be returned
 //void Bank::inflation(double factor)
 //{
 //
@@ -151,7 +151,7 @@ void Bank::remove_chip(int value)
 
 vector<Player>::iterator Bank::check_player(string name)
 {
-    return find_if(players.begin(), players.end(), [&name](Player p) -> bool {return p.get_name() == name;});
+    return find_if(players.begin(), players.end(), [&name](Player p) -> bool {try {if ((p.get_name() == name) || (p.get_id() == boost::lexical_cast<int>(name))) return true; else return false;} catch(boost::bad_lexical_cast&){return false;};});
 }
 
 int Bank::get_balance()
@@ -257,7 +257,7 @@ void Bank::buy_sell(bool buy, string name, vector< pair<int, int> > buychips)
     if (p != players.end())
         sstr << *p;
     else
-        sstr << name;
+        sstr << "\"" << name << "\"(unknown)";
     if (buy)
         sstr << " bought";
     else

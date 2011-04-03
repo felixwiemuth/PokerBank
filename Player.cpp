@@ -26,6 +26,11 @@ string Player::get_name()
     return name;
 }
 
+int Player::get_id()
+{
+    return id;
+}
+
 string Player::tostr() const
 {
     stringstream sstr;
