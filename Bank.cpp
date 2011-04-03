@@ -75,12 +75,25 @@ void Bank::cui_set_interest_buy(vector<string> in)
     if (!check_arguments(in.size(), 1, 1))
         return;
     double d;
-    if (!convert_s<double>(in[0], d));
+    if (! (convert_s<double>(in[0], d)));
         return;
-
+    interest_buy = d;
+    stringstream sstr;
+    sstr << "Set interest on purchase to " << get_interest_buy() << "!";
+    log.add(sstr.str());
 }
 
 void Bank::cui_set_interest_sell(vector<string> in)
+{
+    if (!check_arguments(in.size(), 1, 1))
+        return;
+    double d;
+    if (!convert_s<double>(in[0], d));
+        return;
+    interest_sell = d;
+}
+
+void Bank::cui_add_player(vector<string> in)
 {
 
 }
@@ -141,6 +154,20 @@ int Bank::get_balance()
         ret += it->second.get_amount() * it->second.get_value();
     }
     return ret;
+}
+
+string Bank::get_interest_buy()
+{
+    stringstream sstr;
+    sstr << interest_buy*100 << "%";
+    return sstr.str();
+}
+
+string Bank::get_interest_sell()
+{
+    stringstream sstr;
+    sstr << interest_sell*100 << "%";
+    return sstr.str();
 }
 
 void Bank::show_money()
@@ -268,14 +295,14 @@ void Bank::buy_sell(bool buy, string name, vector< pair<int, int> > buychips)
             interest = brutto * interest_buy;
             netto = brutto + interest;
             money += netto;
-            sstr << "\nResult: " << brutto << "  ***  Interest(" << interest_buy*100 << "%): " << interest << "  ***  Please pay: ";
+            sstr << "\nResult: " << brutto << "  ***  Interest(" << get_interest_buy() << "): " << interest << "  ***  Please pay: ";
         }
         else
         {
             interest = brutto * interest_sell;
             netto = brutto - interest;
             money -= netto;
-            sstr << "\nResult: " << brutto << "  ***  Interest(" << interest_sell*100 << "%): " << interest << "  ***  You get: ";
+            sstr << "\nResult: " << brutto << "  ***  Interest(" << get_interest_sell() << "): " << interest << "  ***  You get: ";
         }
         sstr << netto;
         log.add(sstr.str());
