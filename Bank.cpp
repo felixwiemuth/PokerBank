@@ -93,9 +93,17 @@ void Bank::cui_set_interest_sell(vector<string> in)
     interest_sell = d;
 }
 
-void Bank::cui_add_player(vector<string> in)
+void Bank::cui_add_players(vector<string> in)
 {
-
+    if (!check_arguments(in.size(), 1))
+        return;
+    for (vector<string>::iterator it = in.begin(); it != in.end(); ++it)
+    {
+        add_player(*it);
+        stringstream sstr;
+        sstr << "New player: " << players.back();
+        log.add(sstr.str());
+    }
 }
 
 //void Bank::inflation(double factor)
@@ -126,12 +134,12 @@ bool Bank::take_money(int amount)
     return true;
 }
 
-void Bank::add_player(string name)
+void Bank::add_player(string& name)
 {
     players.push_back(Player(name));
 }
 
-void Bank::add_chip(Chip chip)
+void Bank::add_chip(Chip& chip)
 {
     chips[chip.get_value()] = chip;
 }

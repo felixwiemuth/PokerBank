@@ -38,15 +38,15 @@ class Bank
         void cui_take_money(std::vector<std::string> in);
         void cui_set_interest_buy(std::vector<std::string> in);
         void cui_set_interest_sell(std::vector<std::string> in);
-        void cui_add_player(std::vector<std::string> in);
+        void cui_add_players(std::vector<std::string> in);
         /* --- methods --- */
         //void inflation(double factor);
         void set_interest_buy(double interest); //set 'interest_buy' to 'interest'
         void set_interest_sell(double interest);//set 'interest_sell' to 'interest'
         void add_money(int amount); //add 'amount' money to the bank
         bool take_money(int amount); //takes 'amount' money from the bank -- returns 'true' if enough money available to take 'amount'
-        void add_player(std::string name); //add a new player with name 'name' to 'players'
-        void add_chip(Chip chip);
+        void add_player(std::string& name); //add a new player with name 'name' to 'players'
+        void add_chip(Chip& chip);
         void remove_chip(int value); //removes chip sort with value 'value'
         std::vector<Player>::iterator check_player(std::string name); //returns iterator to player in 'players' if player with name 'name' existing
         int get_balance(); //return the value of all chips together

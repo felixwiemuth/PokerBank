@@ -13,8 +13,10 @@ int main(/*int argc, char** argv*/)
 {
     Cui<Bank> cui; //CUI as user interface
     Bank bank;
-    bank.add_chip(Chip(50, "red", 200));
-    bank.add_player("Dieter");
+    Chip chip1(50, "red", 200);
+    bank.add_chip(chip1);
+    string player1 = "Dieter";
+    bank.add_player(player1);
 
     //add CUI-handlers
     cui["buy"].set(&bank, 0, &Bank::cui_buy).set_help("Syntax: [name] [n1]x[c1] [n2]x[c2] ... n = amount, c = chip value");
@@ -23,6 +25,7 @@ int main(/*int argc, char** argv*/)
     cui["take-money"].set(&bank, 0, &Bank::cui_take_money);
     cui["set-interest-buy"].set(&bank, 0, &Bank::cui_set_interest_buy);
     cui["set-interest-sell"].set(&bank, 0, &Bank::cui_set_interest_sell);
+    cui["add-players"].set(&bank, 0, &Bank::cui_add_players);
     cui["money"].set(&bank, &Bank::show_money);
     cui["chips"].set(&bank, &Bank::show_chips);
     cui["value"].set(&bank, &Bank::show_chip_value);
