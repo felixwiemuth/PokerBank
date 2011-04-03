@@ -18,8 +18,8 @@ class Player
     public:
         std::string get_name();
         int get_id();
-        std::string tostr() const;
-        friend std::ostream& operator<<(std::ostream& os, const Player& p);
+        std::string tostr() const; //format player as string
+        friend std::ostream& operator<<(std::ostream& os, const Player& p); //shift operator adding 'tostr()' to stream
 
     private:
         void init();
