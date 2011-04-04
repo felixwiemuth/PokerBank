@@ -75,11 +75,11 @@ void Bank::cui_set_interest_buy(vector<string> in)
     if (!check_arguments(in.size(), 1, 1))
         return;
     double d;
-    if (! (convert_s<double>(in[0], d)));
+    if (!convert_s<double>(in[0], d))
         return;
     interest_buy = d;
     stringstream sstr;
-    sstr << "Set interest on purchase to " << get_interest_buy() << "!";
+    sstr << "Set interest on buying to " << get_interest_buy() << "!";
     log.add(sstr.str());
 }
 
@@ -88,9 +88,12 @@ void Bank::cui_set_interest_sell(vector<string> in)
     if (!check_arguments(in.size(), 1, 1))
         return;
     double d;
-    if (!convert_s<double>(in[0], d));
+    if (!convert_s<double>(in[0], d))
         return;
     interest_sell = d;
+    stringstream sstr;
+    sstr << "Set interest on selling to " << get_interest_sell() << "!";
+    log.add(sstr.str());
 }
 
 void Bank::cui_add_players(vector<string> in)//check if 'name' is a players name or id -- iterator to first matching player will be returned
