@@ -29,6 +29,7 @@ int main(/*int argc, char** argv*/)
     cui["remove-players"].set(&bank, 0, &Bank::cui_remove_players).set_help("Remove registered players from bank. Syntax: [name/id 1] [name/id 2] ...");
     cui["add-chips"].set(&bank, 0, &Bank::cui_add_chips);
     cui["money"].set(&bank, &Bank::show_money).set_help("Display money of bank.");
+    cui["interest"].set(&bank, &Bank::show_interest).set_help("Display interest on buying/selling.");
     cui["chips"].set(&bank, &Bank::show_chips).set_help("Display all chips.");
     cui["value"].set(&bank, &Bank::show_chip_value).set_help("Display the value of all chips together.");
     cui["status"].set(&bank, &Bank::show_bank_status).set_help("Display status of bank.");

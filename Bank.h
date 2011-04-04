@@ -58,6 +58,7 @@ class Bank
         std::string get_interest_sell(); //returns 'interest_sell' as string in form "xx%"
         //methods to show (log) status information
         void show_money();
+        void show_interest();
         void show_chip_value();
         void show_chips();
         void show_bank_status(); //show every information if 'show_' methods (from above) together

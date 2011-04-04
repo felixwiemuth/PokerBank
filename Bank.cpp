@@ -132,6 +132,7 @@ void Bank::cui_add_chips(vector<string> in)
 {
     if (!check_arguments(in.size(), 3))
         return;
+    //check every group of three elements in 'in'
     for (int i = 0; (i+2) < in.size(); i++)
     {
         int amount, value;
@@ -152,7 +153,15 @@ void Bank::cui_add_chips(vector<string> in)
 
 void Bank::cui_remove_chips(vector<string> in)
 {
-
+    if (!check_arguments(in.size(), 1))
+        return;
+    for (vector<string>::iterator it = in.begin(); it != in.end(); ++it)
+    {
+        int val;
+        if (!convert_s(*it, val))
+            continue;
+        chips.erase(val);
+    }
 }
 
 //void Bank::inflation(double factor)
@@ -236,6 +245,13 @@ void Bank::show_money()
 {
     stringstream sstr;
     sstr << "Money in bank: " << money;
+    log.add(sstr.str());
+}
+
+void Bank::show_interest()
+{
+    stringstream sstr;
+    sstr << "Interest: " << get_interest_buy() << " (buy) / " << get_interest_sell() << " (sell)";
     log.add(sstr.str());
 }
 
