@@ -32,16 +32,16 @@ class Bank
         double interest_sell; //interest on selling chips to bank
     public:
         /* --- CUI methods --- */
-        void cui_buy(std::vector<std::string> in); //CUI api to buy chips -- form of 'in': "[name] [n1]x[c1] [n2]x[c2] ..." n = amount, c = chip value
-        void cui_sell(std::vector<std::string> in); //CUI api to sell chips -- form of 'in': "[name] [n1]x[c1] [n2]x[c2] ..." n = amount, c = chip value
-        void cui_add_money(std::vector<std::string> in);
-        void cui_take_money(std::vector<std::string> in);
-        void cui_set_interest_buy(std::vector<std::string> in);
-        void cui_set_interest_sell(std::vector<std::string> in);
-        void cui_add_players(std::vector<std::string> in);
-        void cui_remove_players(std::vector<std::string> in);
-        void cui_add_chips(std::vector<std::string> in); //Syntax: "[amount1] [name1] [value1] [amount2] [name2] [value2] ..."
-        void cui_remove_chips(std::vector<std::string> in);
+        void cui_buy(std::vector<std::string> in); //CUI api to buy chips -- syntax: "[name] [n1]x[c1] [n2]x[c2] ..." n = amount, c = chip value
+        void cui_sell(std::vector<std::string> in); //CUI api to sell chips -- syntax: "[name] [n1]x[c1] [n2]x[c2] ..." n = amount, c = chip value
+        void cui_add_money(std::vector<std::string> in); //CUI api to -- syntax: "[amount] [message]"
+        void cui_take_money(std::vector<std::string> in); //CUI api to -- syntax: "[amount] [message]"
+        void cui_set_interest_buy(std::vector<std::string> in); //CUI api to -- syntax: "[percent interest]" e.g. 2 or 0.5
+        void cui_set_interest_sell(std::vector<std::string> in); //CUI api to -- syntax: "[percent interest]" e.g. 2 or 0.5
+        void cui_add_players(std::vector<std::string> in); //CUI api to register players to bank -- syntax: "[name1] [name2] ..."
+        void cui_remove_players(std::vector<std::string> in); //CUI api to unregister players from bank -- syntax: "[name/id 1] [name/id 2] ..."
+        void cui_add_chips(std::vector<std::string> in); //CUI api to register new (or overwrite old) chip sorts to bank -- syntax: "[amount1] [name1] [value1] [amount2] [name2] [value2] ..."
+        void cui_remove_chips(std::vector<std::string> in); //CUI api to remove chip sorts from bank -- syntax: "[value1] [value2] ..."
         /* --- methods --- */
         //void inflation(double factor);
         void set_interest_buy(double interest); //set 'interest_buy' to 'interest'

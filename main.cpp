@@ -23,11 +23,12 @@ int main(/*int argc, char** argv*/)
     cui["sell"].set(&bank, 0, &Bank::cui_sell).set_help("Sell chips to bank. Syntax: [name] [n1]x[c1] [n2]x[c2] ... n = amount, c = chip value");
     cui["add-money"].set(&bank, 0, &Bank::cui_add_money).set_help("Add money to bank. Syntax: [amount] [message]");
     cui["take-money"].set(&bank, 0, &Bank::cui_take_money).set_help("Take money from bank. Syntax: [amount] [message]");
-    cui["set-interest-buy"].set(&bank, 0, &Bank::cui_set_interest_buy).set_help("Set interest on purchase of chips. Syntax: [percent interest e.g. 0.05]");
-    cui["set-interest-sell"].set(&bank, 0, &Bank::cui_set_interest_sell).set_help("Set interest on selling of chips. Syntax: [percent interest e.g. 0.05]");
+    cui["set-interest-buy"].set(&bank, 0, &Bank::cui_set_interest_buy).set_help("Set interest on purchase of chips. Syntax: [percent interest e.g. 2 or 0.5]");
+    cui["set-interest-sell"].set(&bank, 0, &Bank::cui_set_interest_sell).set_help("Set interest on selling of chips. Syntax: [percent interest e.g. 2 or 0.5]");
     cui["add-players"].set(&bank, 0, &Bank::cui_add_players).set_help("Register new players to bank. Syntax: [name1] [name2] ...");
     cui["remove-players"].set(&bank, 0, &Bank::cui_remove_players).set_help("Remove registered players from bank. Syntax: [name/id 1] [name/id 2] ...");
-    cui["add-chips"].set(&bank, 0, &Bank::cui_add_chips);
+    cui["add-chips"].set(&bank, 0, &Bank::cui_add_chips).set_help("Register new (or overwrite old) chip sorts. Syntax: [amount1] [name1] [value1] [amount2] [name2] [value2] ...");
+    cui["remove-chips"].set(&bank, 0, &Bank::cui_remove_chips).set_help("Remove chip sorts. Syntax: [amount1] [name1] [value1] [amount2] [name2] [value2] ...");
     cui["money"].set(&bank, &Bank::show_money).set_help("Display money of bank.");
     cui["interest"].set(&bank, &Bank::show_interest).set_help("Display interest on buying/selling.");
     cui["chips"].set(&bank, &Bank::show_chips).set_help("Display all chips.");
@@ -37,7 +38,7 @@ int main(/*int argc, char** argv*/)
     // ||to add new copy:|| cui[""].set(&bank, &Bank::);
     cui[""].set(&bank, &Bank::exit_program);
     bank.set_interest_buy(0.1);
-    bank.set_interest_sell(0.2);
+    bank.set_interest_sell(0.075);
     cui.run();
 
 
