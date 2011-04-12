@@ -79,7 +79,7 @@ void Bank::cui_set_interest_buy(vector<string> in)
         return;
     interest_buy = d;
     stringstream sstr;
-    sstr << "Set interest on buying to " << get_interest_buy() << "!";
+    sstr << "Set interest on purchase to " << get_interest_buy() << "!";
     log.add(sstr.str());
 }
 
@@ -382,17 +382,17 @@ void Bank::buy_sell(bool buy, string name, vector< pair<int, int> > buychips)
     if (brutto != 0)
     {
         int interest, netto;
+        //(always round interest up)
         if (buy)
         {
-            interest = double(brutto) * interest_buy;
+            interest = ceil(brutto * interest_buy);
             netto = brutto + interest;
             money += netto;
             sstr << "\nResult: " << brutto << "  ***  Interest(" << get_interest_buy() << "): " << interest << "  ***  Please pay: ";
         }
         else
         {
-            interest = double(brutto) * interest_sell;
-            cout << "double(brutto)=" << double(brutto) << " interest_sell=" << interest_sell << " multi=" << double(brutto) * interest_sell << "as int=" << static_cast<int>(double(brutto) * abs(interest_sell));
+            interest = ceil(brutto * interest_sell);
             netto = brutto - interest;
             money -= netto;
             sstr << "\nResult: " << brutto << "  ***  Interest(" << get_interest_sell() << "): " << interest << "  ***  You get: ";

@@ -37,7 +37,7 @@ int main(/*int argc, char** argv*/)
     cui["players"].set(&bank, &Bank::show_players).set_help("Display players registered to bank.");
     // ||to add new copy:|| cui[""].set(&bank, &Bank::);
     cui[""].set(&bank, &Bank::exit_program);
-    bank.set_interest_buy(0.1);
+    bank.set_interest_buy(0.0075);
     bank.set_interest_sell(0.075);
     cui.run();
 
