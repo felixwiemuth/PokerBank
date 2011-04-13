@@ -167,6 +167,17 @@ void Bank::cui_remove_chip_sorts(vector<string> in)
     }
 }
 
+void Bank::cui_change_chip_amount(vector<string> in)
+{
+    vector< pair<int, int> > c = str_to_chips(in.begin(), in.end());
+    for (vector< pair<int, int> >::iterator it = c.begin(); it != c.end(); ++it)
+    {
+        if (!check_chip_value(it->second))
+            continue;
+        change_chip_amount(it->second, it->first);
+    }
+}
+
 //void Bank::inflation(double factor)
 //{
 //
@@ -213,6 +224,23 @@ void Bank::add_chip(Chip chip)
 void Bank::remove_chip(int value)
 {
     chips.erase(value);
+}
+
+bool Bank::change_chip_amount(int val, int diff)
+{
+    if (!check_chip_value(val))
+        return false;
+    if (diff > 0)
+        chips[val].increase_amount(diff);
+    else if (diff < 0)
+        if (!chips[val].reduce_amount(-diff))
+        {
+            stringstream sstr;
+            sstr << "No " << -diff << " chips of value " << val << " available!";
+            syslog.err(sstr.str());
+            return false;
+        }
+    return true;
 }
 
 vector<Player>::iterator Bank::check_player(string name)
@@ -302,7 +330,7 @@ void Bank::exit_program()
 
 vector< pair<int, int> > Bank::str_to_chips(vector<string>::iterator first, vector<string>::iterator last)
 {
-    vector< pair<int, int> > ret(chips.size());
+    vector< pair<int, int> > ret;
     //split words fo input in the two numbers: "4x50" --> n[0]=4 n[1] =50
     for (vector<string>::iterator it = first; it != last; ++it)
     {
@@ -335,6 +363,7 @@ vector< pair<int, int> > Bank::str_to_chips(vector<string>::iterator first, vect
 
 void Bank::buy_sell(bool buy, string name, vector< pair<int, int> > buychips)
 {
+    cout << "BUYCHIPS HAS " << buychips.size() << endl;
     stringstream sstr;
     int brutto = 0;
     vector<Player>::iterator p = check_player(name);
@@ -426,6 +455,18 @@ bool Bank::check_arguments(size_t is, size_t min, size_t max)
     sstr << " arguments!";
     syslog.err(sstr.str());
     return false;
+}
+
+bool Bank::check_chip_value(int& val)
+{
+    if (chips.find(val) == chips.end())
+    {
+        stringstream sstr;
+        sstr << "No chip defined with value " << val << "!";
+        syslog.err(sstr.str());
+        return false;
+    }
+    return true;
 }
 
 template<class T> bool Bank::convert_s(string& source, T& var)
