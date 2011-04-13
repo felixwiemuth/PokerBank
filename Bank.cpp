@@ -131,7 +131,7 @@ void Bank::cui_remove_players(vector<string> in)//check if 'name' is a players n
     }
 }
 
-void Bank::cui_add_chips(vector<string> in)
+void Bank::cui_add_chip_sorts(vector<string> in)
 {
     if (!check_arguments(in.size(), 3))
         return;
@@ -154,7 +154,7 @@ void Bank::cui_add_chips(vector<string> in)
     }
 }
 
-void Bank::cui_remove_chips(vector<string> in)
+void Bank::cui_remove_chip_sorts(vector<string> in)
 {
     if (!check_arguments(in.size(), 1))
         return;

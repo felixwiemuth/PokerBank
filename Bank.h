@@ -27,7 +27,7 @@ class Bank
         std::vector<Player> players; //TODO in methods below players can write #XXX instead of name, with "XXX" being their registred id or name
         Log syslog; //log to log everything
         Log log; //log to log bank activity
-        std::map<int, Chip> chips; //available chip sorts
+        std::map<int, Chip> chips; //available chip sorts -- key is chip value
         double interest_buy; //interest on buying chips from bank
         double interest_sell; //interest on selling chips to bank
     public:
@@ -40,8 +40,8 @@ class Bank
         void cui_set_interest_sell(std::vector<std::string> in); //CUI api to -- syntax: "[percent interest]" e.g. 2 or 0.5
         void cui_add_players(std::vector<std::string> in); //CUI api to register players to bank -- syntax: "[name1] [name2] ..."
         void cui_remove_players(std::vector<std::string> in); //CUI api to unregister players from bank -- syntax: "[name/id 1] [name/id 2] ..."
-        void cui_add_chips(std::vector<std::string> in); //CUI api to register new (or overwrite old) chip sorts to bank -- syntax: "[amount1] [name1] [value1] [amount2] [name2] [value2] ..."
-        void cui_remove_chips(std::vector<std::string> in); //CUI api to remove chip sorts from bank -- syntax: "[value1] [value2] ..."
+        void cui_add_chip_sorts(std::vector<std::string> in); //CUI api to register new (or overwrite old) chip sorts to bank -- syntax: "[amount1] [name1] [value1] [amount2] [name2] [value2] ..."
+        void cui_remove_chip_sorts(std::vector<std::string> in); //CUI api to remove chip sorts from bank -- syntax: "[value1] [value2] ..."
         /* --- methods --- */
         //void inflation(double factor);
         void set_interest_buy(double interest); //set 'interest_buy' to 'interest'
@@ -50,7 +50,7 @@ class Bank
         bool take_money(int amount); //takes 'amount' money from the bank -- returns 'true' if enough money available to take 'amount'
         void add_player(std::string& name); //add a new player with name 'name' to 'players'
         void remove_player(std::vector<Player>::iterator p); //remove player with iterator 'p' from 'players' -- use e.g. "remove_player(check_player("Jack"));"
-        void add_chip(Chip chip);
+        void add_chip(Chip chip); //add 'chip' to 'chips'
         void remove_chip(int value); //removes chip sort with value 'value'
         std::vector<Player>::iterator check_player(std::string name); //check if 'name' is a players name or id -- iterator to first matching player will be returned
         int get_balance(); //return the value of all chips together
