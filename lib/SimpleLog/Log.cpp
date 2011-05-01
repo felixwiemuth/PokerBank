@@ -89,11 +89,13 @@ bool Log::load()
 
 bool Log::save(const char path[])
 {
+    if (logstr.size() == 0) //prevent from saving empty log
+        return false;
     ofstream file(path, ios::trunc); //create filestream to write, open file
     if (file.is_open() == false)
         return false; //file not opended -> abort and return false
 
-    for(vector<string>::iterator entry = logstr.begin(); entry != logstr.end(); ++entry) //write line by line into textfile
+    for(vector<string>::iterator entry = logstr.begin(); entry != logstr.end()-1; ++entry) //write line by line into textfile
     {
         file << *entry << seperator;
     }
