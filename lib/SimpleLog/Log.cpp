@@ -23,14 +23,17 @@ Log::Log(const char path[])
     load(path);
 }
 
+Log::~Log()
+{
+    if (autosave == 2)
+        save();
+}
+
 void Log::init()
 {
-    remote = 0;
+    version = "1.0.2 BETA";
     reset_configuration();
     reset_messages();
-    count_reset();
-    count_on();
-    log_info();
 }
 
 void Log::reset_messages()
@@ -40,13 +43,17 @@ void Log::reset_messages()
     seperator = "\n";
     output_symbol = ">>> ";
     error_symbol = "ERR: ";
-    msg_log_info = "Logging done by SimpleLog ALPHA";
+    msg_log_info = "Logging done by SimpleLog " + version;
     msg_begin_log = "--- Begin logging now ---";
 }
 
 void Log::reset_configuration()
 {
+    autosave = 0;
+    remote = 0;
     echo_on();
+    count_reset();
+    count_on();
 }
 
 void Log::log_info()
@@ -116,6 +123,9 @@ void Log::add(string s)
     //send to remote
     if (remote != 0)
         remote->add(s);
+    //autosave
+    if (autosave == 1)
+        save();
 }
 
 void Log::err(std::string s)
@@ -132,6 +142,8 @@ void Log::err(std::string s)
     //send to remote
     if (remote != 0)
         remote->err(s);
+    if (autosave == 1)
+        save();
 }
 
 void Log::echo_on()
@@ -154,6 +166,12 @@ void Log::echo_msg_on()
 void Log::echo_msg_off()
 {
     echo_msg = false;
+}
+
+void Log::set_autosave(int mode)
+{
+    if (mode >= 0 && mode <= 2)
+        autosave = mode;
 }
 
 void Log::echo_err_on()
@@ -219,6 +237,11 @@ void Log::count_off()
 void Log::count_reset()
 {
     cnt_own = 0;
+}
+
+string Log::get_version()
+{
+    return version;
 }
 
 void Log::set_remote(Log* remote_log)
