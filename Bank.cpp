@@ -18,6 +18,7 @@ Bank::Bank()
     money = 0;
     log.set_remote(&syslog);
     log.echo_off();
+    syslog.set_file_name("syslog");
     syslog.log_info();
     syslog.add("Welcome to PokerBank!");
 }
@@ -182,7 +183,7 @@ void Bank::cui_change_chip_amount(vector<string> in)
 
 void Bank::cui_set_log(vector<string> in)
 {
-    if (!check_arguments(in.size(), 3, 3))
+    if (!check_arguments(in.size(), 2, 3))
         return;
     Log* reflog = &log; //pointer to log (either 'log' or 'syslog') where user wants to change values
     // 1. parameter: choose log
@@ -195,7 +196,35 @@ void Bank::cui_set_log(vector<string> in)
         syslog.err(sstr.str());
         return;
     }
-    // 2. parameter: choose setting
+    // 2. parameter: choose setting (without / with further paramter)
+    if (in[1] == "save") //TODO same for load!
+    {
+        if (in.size() == 2)
+        {
+            if (reflog->save())
+                log.add("Log successfully saved to standard path!");
+            else
+                log.add("Could not save log to standard path!");
+        }
+        else
+        {
+            stringstream sstr;
+            if (reflog->save(in[2].c_str()))
+            {
+                sstr << "Log successfully saved to '" << in[2] << "'!";
+                log.add(sstr.str());
+            }
+            else
+            {
+                sstr << "Could not save log to '" << in[2] << "'!";
+                log.err(sstr.str());
+            }
+        }
+        return;
+    }
+    if (!check_arguments(in.size(), 3, 3))
+        return;
+    // 2. parameter: choose setting (with further paramter)
     if (in[1] == "file")
     {
         reflog->set_file_name(in[2]);
@@ -285,12 +314,6 @@ bool Bank::change_chip_amount(int val, int diff)
         }
     return true;
 }
-
-//void Bank::save_logs()
-//{
-//    log.save();
-//    syslog.save();
-//}
 
 vector<Player>::iterator Bank::check_player(string name)
 {
