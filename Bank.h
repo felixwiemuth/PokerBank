@@ -43,6 +43,7 @@ class Bank
         void cui_add_chip_sorts(std::vector<std::string> in); //CUI api to register new (or overwrite old) chip sorts to bank -- syntax: "[amount1] [name1] [value1] [amount2] [name2] [value2] ..."
         void cui_remove_chip_sorts(std::vector<std::string> in); //CUI api to remove chip sorts from bank -- syntax: "[value1] [value2] ..."
         void cui_change_chip_amount(std::vector<std::string> in); //CUI api to change amount of chips of different sorts -- syntax: "[diff1]x[value1] [diff2]x[value2] ..."
+        void cui_set_log(std::vector<std::string> in); //CUI api to set different values of both logs -- syntax: "[log/syslog] [file/autosave/...//TODO add] [value]"
         /* --- methods --- */
         //void inflation(double factor);
         void set_interest_buy(double interest); //set 'interest_buy' to 'interest'

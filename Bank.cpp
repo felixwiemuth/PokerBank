@@ -96,7 +96,7 @@ void Bank::cui_set_interest_sell(vector<string> in)
     log.add(sstr.str());
 }
 
-void Bank::cui_add_players(vector<string> in)//check if 'name' is a players name or id -- iterator to first matching player will be returned
+void Bank::cui_add_players(vector<string> in)
 {
     if (!check_arguments(in.size(), 1))
         return;
@@ -109,7 +109,7 @@ void Bank::cui_add_players(vector<string> in)//check if 'name' is a players name
     }
 }
 
-void Bank::cui_remove_players(vector<string> in)//check if 'name' is a players name or id -- iterator to first matching player will be returned
+void Bank::cui_remove_players(vector<string> in)
 {
     if (!check_arguments(in.size(), 1))
         return;
@@ -175,6 +175,47 @@ void Bank::cui_change_chip_amount(vector<string> in)
         if (!check_chip_value(it->second))
             continue;
         change_chip_amount(it->second, it->first);
+    }
+}
+
+void Bank::cui_set_log(vector<string> in)
+{
+    if (!check_arguments(in.size(), 3, 3))
+        return;
+    Log* reflog = &log; //pointer to log (either 'log' or 'syslog') where user wants to change values
+    // 1. parameter: choose log
+    if (in.front() == "syslog")
+        reflog = &syslog;
+    else if (in.front() != "log")
+    {
+        stringstream sstr;
+        sstr << "'" << in.front() << "' does not specify a log. Type 'log' for normal log or 'syslog' for system log.";
+        syslog.err(sstr.str());
+        return;
+    }
+    // 2. parameter: choose setting
+    if (in[1] == "file")
+    {
+        reflog->set_file_name(in[2]);
+        stringstream sstr;
+        sstr << "Changed filename of ";
+        if (reflog == &log)
+            sstr << "log";
+        else
+            sstr << "syslog";
+        sstr << " to '" << in[2] << "'.";
+        syslog.add(sstr.str());
+    }
+    else if (in[1] == "autosave")
+    {
+        //TODO implement
+    }
+    else
+    {
+        stringstream sstr;
+        sstr << "'" << in[1] << "' is no available setting in logs!";
+        syslog.err(sstr.str());
+        return;
     }
 }
 
