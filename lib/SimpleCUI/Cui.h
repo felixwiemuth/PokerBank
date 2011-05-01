@@ -20,8 +20,13 @@ class Cui
     public:
         Cui()
         {
+            version = "1.0.5 Release";
+            msg_version = "Version of CUI: ";
+            version_cmd = "version";
             help_cmd = "help";
             help_all_cmd = "commands";
+            show_all_cmd = "commands";
+            msg_all_commands = "Available commands:\n";
             exit_cmd = "exit";
             reset_help();
             msg_exit = "Leaving CUI environment...";
@@ -39,11 +44,18 @@ class Cui
 
     private:
         std::map< std::string, Command<FuncClass> > cmds; //all possible commands
+        //version string
+        std::string version;
+        //pre-defined commands
         std::string help_cmd; //command to show help (general or for command)
         std::string help_all_cmd; //string to type behind 'help_cmd' to execute 'show_all_help()'
+        std::string show_all_cmd; //command to show all available commands
+        std::string version_cmd; //command to show version of CUI (the lib)
         std::string exit_cmd; //command to leave 'run()' (can be overwritten by commands in 'cmds')
         //messages
         std::string help; //help text
+        std::string msg_all_commands; //message to show before printing all available commands
+        std::string msg_version; //text to show before version number
         std::string msg_exit; //message on exit
         //error messages
         std::string err;
@@ -107,6 +119,7 @@ class Cui
                 }
                 else
                 {
+                    //help command with and without values
                     if (words.front() == help_cmd)
                     {
                         if (words.size() == 1)
@@ -125,26 +138,39 @@ class Cui
                             }
                         }
                     }
-                    else if (words.front() == exit_cmd)
+                    else if (words.front() == version_cmd)
                     {
-                        if (words.size() == 1)
+                        std::cout << msg_version << version << std::endl;
+                    }
+                    //all following options are commands without values
+                    else if (words.size() == 1)
+                    {
+                        if (words.front() == show_all_cmd)
+                        {
+                            show_all_commands();
+                        }
+                        else if (words.front() == exit_cmd)
                         {
                             std::cout << msg_exit << std::endl;
                             return;
                         }
                         else
-                            std::cout << err << err_wrong_call_p_1 << words.front() << err_wrong_call_p_2 << std::endl;
+                            std::cout << err << err_no_command_1 << words.front() << err_no_command_2 << std::endl;
                     }
                     else
-                        std::cout << err << err_no_command_1 << words.front() << err_no_command_2 << std::endl;
+                    {
+                        std::cout << err << err_wrong_call_p_1 << words.front() << err_wrong_call_p_2 << std::endl;
+                    }
                 }
             }
         }
 
         void reset_help()
         {
-            help = "Type 'help <command>' for information about commands!\n"
-                   "Type 'help " + help_all_cmd + "' for information about all commands!";
+            help = "Type 'help <command>' for information about one command!\n"
+                   "Type '" + show_all_cmd + "' for a list of all available commands!\n"
+                   "Type 'help " + help_all_cmd + "' for information about all commands!\n"
+                   "Type '" + version_cmd + "' to show version of CUI!";
         }
 
         void show_all_help()
@@ -153,6 +179,15 @@ class Cui
             {
                 std::cout << "'" << it->first << "': ";
                 it->second.show_help();
+            }
+        }
+
+        void show_all_commands()
+        {
+            std::cout << msg_all_commands << std::endl;
+            for (cmds_iter it = cmds.begin(); it != cmds.end(); ++it)
+            {
+                std::cout << "" << it->first << std::endl;
             }
         }
 
