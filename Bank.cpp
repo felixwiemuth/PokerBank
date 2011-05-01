@@ -18,6 +18,8 @@ Bank::Bank()
     money = 0;
     log.set_remote(&syslog);
     log.echo_off();
+    syslog.log_info();
+    syslog.add("Welcome to PokerBank!");
 }
 
 void Bank::cui_buy(vector<string> in)
@@ -283,6 +285,12 @@ bool Bank::change_chip_amount(int val, int diff)
         }
     return true;
 }
+
+//void Bank::save_logs()
+//{
+//    log.save();
+//    syslog.save();
+//}
 
 vector<Player>::iterator Bank::check_player(string name)
 {

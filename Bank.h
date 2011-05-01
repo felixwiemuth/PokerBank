@@ -55,6 +55,8 @@ class Bank
         void add_chip(Chip chip); //add 'chip' to 'chips'
         void remove_chip(int value); //removes chip sort with value 'value'
         bool change_chip_amount(int val, int diff); //changes amount of chips with value 'val' by 'diff'
+        //void save_logs(); //saves both logs to specified paths
+
         std::vector<Player>::iterator check_player(std::string name); //check if 'name' is a players name or id -- iterator to first matching player will be returned
         int get_balance(); //return the value of all chips together
         std::string get_interest_buy(); //returns 'interest_buy' as string in form "xx%"
@@ -74,7 +76,6 @@ class Bank
         bool check_arguments(size_t is, size_t min, size_t max = -1); //check if 'is' is between 'min' and 'max' ('max='-1' means no max), if not displays error message and returns 'false'
         bool check_chip_value(int& val); //checks if 'val' is the value of an available chip sort, displays error message if not
         template<class T> bool convert_s(std::string& source, T& var); //converts 'source' to type 'T' (numeric) and shows error on failure -- returns true on success
-
 };
 
 #endif	/* _BANK_H */
