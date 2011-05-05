@@ -3,6 +3,7 @@
 
 #include <vector>
 #include <string>
+#include <sstream>
 
 
 //class to log all program acitivity
@@ -13,6 +14,8 @@ class Log
     private:
         //vector that includes log entries (each element / string is one entry)
         std::vector<std::string> logstr;
+        //stream for next log entry
+        std::ostringstream buff;
         //mode vars
         bool echo_msg; //'true' = show messages in console
         bool echo_err; //'true' = show errors in console
@@ -55,7 +58,9 @@ class Log
         bool save(const char path[]); //saves 'logstr' to file 'path' or overwrites it (!) -- return value: true=ok | errors: false=file could not be opened
         bool save(); //calls 'save(const char path[])' with 'std_file_name' and 'std_file_ending'
         void add(std::string s); //add normal entry
+        void add(); //add normal entry using content of buffer 'buff'
         void err(std::string s); //add error entry
+        void err(); //add error entry using content of buffer 'buff'
 
         //mode switches
         void echo_on();
@@ -87,6 +92,7 @@ class Log
 
         //get methods
         std::string get_version(); //returns version string of SimpleLog
+        std::ostringstream& ref_buff(); //returns reference to 'buff'
 
         //print methods
         void print(unsigned int entry); //displays 'logstr[entry]'

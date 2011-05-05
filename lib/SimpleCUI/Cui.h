@@ -20,7 +20,7 @@ class Cui
     public:
         Cui()
         {
-            version = "1.0.5 Release";
+            version = "1.0.6 Release";
             msg_version = "Version of CUI: ";
             version_cmd = "version";
             help_cmd = "help";
@@ -138,10 +138,6 @@ class Cui
                             }
                         }
                     }
-                    else if (words.front() == version_cmd)
-                    {
-                        std::cout << msg_version << version << std::endl;
-                    }
                     //all following options are commands without values
                     else if (words.size() == 1)
                     {
@@ -149,17 +145,23 @@ class Cui
                         {
                             show_all_commands();
                         }
+                        else if (words.front() == version_cmd)
+                        {
+                            std::cout << msg_version << version << std::endl;
+                        }
                         else if (words.front() == exit_cmd)
                         {
                             std::cout << msg_exit << std::endl;
                             return;
                         }
+                        //input is none of available commands
                         else
                             std::cout << err << err_no_command_1 << words.front() << err_no_command_2 << std::endl;
                     }
+                    //words.size() > 1 but no commands with values allowed here
                     else
                     {
-                        std::cout << err << err_wrong_call_p_1 << words.front() << err_wrong_call_p_2 << std::endl;
+                        std::cout << err << err_no_command_1 << words.front() << err_no_command_2 << std::endl;
                     }
                 }
             }

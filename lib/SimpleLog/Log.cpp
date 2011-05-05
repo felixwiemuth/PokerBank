@@ -31,7 +31,7 @@ Log::~Log()
 
 void Log::init()
 {
-    version = "1.0.3 BETA";
+    version = "1.1.0 BETA";
     reset_configuration();
     reset_messages();
 }
@@ -130,6 +130,13 @@ void Log::add(string s)
         save();
 }
 
+void Log::add()
+{
+    add(buff.str());
+    buff.str("");
+    buff.clear();
+}
+
 void Log::err(std::string s)
 {
     //add [and print]
@@ -146,6 +153,13 @@ void Log::err(std::string s)
         remote->err(s);
     if (autosave == 1)
         save();
+}
+
+void Log::err()
+{
+    err(buff.str());
+    buff.str("");
+    buff.clear();
 }
 
 void Log::echo_on()
@@ -190,12 +204,10 @@ void Log::set_name(std::string name)
 {
     this->name = name;
 }
-
 void Log::set_prefix(std::string prefix)
 {
     this->prefix = prefix;
 }
-
 void Log::set_file_ending(string file_ending)
 {
     this->file_ending = file_ending;
@@ -244,6 +256,11 @@ void Log::count_reset()
 string Log::get_version()
 {
     return version;
+}
+
+ostringstream& Log::ref_buff()
+{
+    return buff;
 }
 
 void Log::set_remote(Log* remote_log)
