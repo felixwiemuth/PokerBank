@@ -19,6 +19,8 @@ Bank::Bank()
     log.set_remote(&syslog);
     log.echo_off();
     syslog.set_file_name("syslog");
+    log.set_autosave(2); //save on destruction
+    log.set_autosave(2); //save on destruction
     syslog.log_info();
     syslog.add("Welcome to PokerBank!");
 }
@@ -239,7 +241,9 @@ void Bank::cui_set_log(vector<string> in)
     }
     else if (in[1] == "autosave")
     {
-        //TODO implement
+        int n;
+        if (convert_s(in[2], n))
+            reflog->set_autosave(n);
     }
     else
     {
