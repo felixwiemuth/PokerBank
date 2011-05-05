@@ -12,6 +12,14 @@
 #include <vector>
 #include <map>
 
+
+//exception type thrown by 'Bank' to intend leaving of program
+struct exit_exception
+{
+    int c; //exit code
+    exit_exception(int c):c(c) {}
+};
+
 /* --- NOTE ---
    The "cui_X" methods translate the users input to the corresponding "X" method
    and should be given to "CUI" as user interface.

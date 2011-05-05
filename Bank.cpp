@@ -426,7 +426,7 @@ void Bank::show_players()
 void Bank::exit_program()
 {
     syslog.add("End running of PokerBank and leave program now...");
-    exit(0);
+    throw exit_exception(0);
 }
 
 vector< pair<int, int> > Bank::str_to_chips(vector<string>::iterator first, vector<string>::iterator last)
