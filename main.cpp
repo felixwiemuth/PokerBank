@@ -11,6 +11,8 @@ using namespace std;
 
 int main(/*int argc, char** argv*/)
 {
+    // *** BEGIN initialisation ***
+
     Cui<Bank> cui; //CUI as user interface
     Bank bank;
     Chip chip1(50, "red", 200);
@@ -18,7 +20,7 @@ int main(/*int argc, char** argv*/)
     string player1 = "Dieter";
     bank.add_player(player1);
 
-    //add CUI-handlers
+    // add CUI-handlers
     cui["buy"].set(&bank, 0, &Bank::cui_buy).set_help("Buy chips from bank. Syntax: [name] [n1]x[c1] [n2]x[c2] ... n = amount, c = chip value");
     cui["sell"].set(&bank, 0, &Bank::cui_sell).set_help("Sell chips to bank. Syntax: [name] [n1]x[c1] [n2]x[c2] ... n = amount, c = chip value");
     cui["add-money"].set(&bank, 0, &Bank::cui_add_money).set_help("Add money to bank. Syntax: [amount] [message]");
@@ -41,13 +43,25 @@ int main(/*int argc, char** argv*/)
     cui[""].set(&bank, &Bank::exit_program);
     bank.set_interest_buy(0.0075);
     bank.set_interest_sell(0.075);
-    cui.run();
+
+    // *** END initialisation ***
 
 
-//    Bank bank2;
-//    cout << "Banks balance: " << bank2.get_balance() << endl;
-//    Chip c1(100, "MaanxD", 5);
-//    cout << "Chip 1: " << c1;
+    // *** BEGIN programs main loop ***
+
+    // from this point on all actions are controlled by CUI / 'cui.run()'
+    try
+    {
+        cui.run();
+    }
+    // catch exceptions of type 'exit_exception' which mean requests to end programs runtime
+    catch(exit_exception& e)
+    {
+        return e.c;
+    }
+
+    // *** END programs main loop ***
+
     return 0;
 }
 
