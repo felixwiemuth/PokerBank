@@ -224,6 +224,31 @@ void Bank::cui_set_log(vector<string> in)
         }
         return;
     }
+    else if (in[1] == "load")
+    {
+        if (in.size() == 2)
+        {
+            if (reflog->load())
+                log.add("Log successfully loaded from standard path!");
+            else
+                log.add("Could not load log from standard path!");
+        }
+        else
+        {
+            stringstream sstr;
+            if (reflog->load(in[2].c_str()))
+            {
+                sstr << "Log successfully loaded from '" << in[2] << "'!";
+                log.add(sstr.str());
+            }
+            else
+            {
+                sstr << "Could not load log from '" << in[2] << "'!";
+                log.err(sstr.str());
+            }
+        }
+        return;
+    }
     if (!check_arguments(in.size(), 3, 3))
         return;
     // 2. parameter: choose setting (with further paramter)
