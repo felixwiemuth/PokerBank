@@ -20,7 +20,7 @@ Bank::Bank()
     log.echo_off();
     syslog.set_file_name("syslog");
     log.set_autosave(2); //save on destruction
-    log.set_autosave(2); //save on destruction
+    syslog.set_autosave(2); //save on destruction
     syslog.log_info();
     syslog.add("Welcome to PokerBank!");
 }
