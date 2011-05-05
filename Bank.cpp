@@ -439,7 +439,6 @@ vector< pair<int, int> > Bank::str_to_chips(vector<string>::iterator first, vect
 
 void Bank::buy_sell(bool buy, string name, vector< pair<int, int> > buychips)
 {
-    cout << "BUYCHIPS HAS " << buychips.size() << endl;
     stringstream sstr;
     int brutto = 0;
     vector<Player>::iterator p = check_player(name);
