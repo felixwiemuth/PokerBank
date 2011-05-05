@@ -32,7 +32,7 @@ class Bank
         Bank();
     private:
         int money; //money belonging to the bank
-        std::vector<Player> players; //TODO in methods below players can write #XXX instead of name, with "XXX" being their registred id or name
+        std::vector<Player> players; //TODO in methods below players can write #XXX instead of name, with "XXX" being their registered id or name
         Log syslog; //log to log everything
         Log log; //log to log bank activity
         std::map<int, Chip> chips; //available chip sorts -- key is chip value
