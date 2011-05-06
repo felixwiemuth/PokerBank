@@ -47,11 +47,10 @@ void Bank::cui_add_money(vector<string> in)
     if (!convert_s(in[0], n))
         return;
     add_money(n);
-    stringstream sstr;
-    sstr << "Added " << in[0] << " to bank: " << in[1];
+    log << "Added " << in[0] << " to bank: " << in[1];
     for (vector<string>::iterator it = in.begin()+2; it != in.end(); ++it)
-        sstr << " " << *it;
-    log.add(sstr.str());
+        log << " " << *it;
+    log.add();
 }
 
 void Bank::cui_take_money(vector<string> in)
@@ -63,16 +62,14 @@ void Bank::cui_take_money(vector<string> in)
         return;
     if (!take_money(n))
     {
-        stringstream sstr;
-        sstr << "Cannot take intended amount of money: bank only has " << money;
-        syslog.err(sstr.str());
+        syslog << "Cannot take intended amount of money: bank only has " << money;
+        syslog.err();
         return;
     }
-    stringstream sstr;
-    sstr << "Took " << in[0] << " from bank: " << in[1];
+    log << "Took " << in[0] << " from bank: " << in[1];
     for (vector<string>::iterator it = in.begin()+2; it != in.end(); ++it)
-        sstr << " " << *it;
-    log.add(sstr.str());
+        log << " " << *it;
+    log.add();
 }
 
 void Bank::cui_set_interest_buy(vector<string> in)
@@ -83,9 +80,8 @@ void Bank::cui_set_interest_buy(vector<string> in)
     if (!convert_s<double>(in[0], d))
         return;
     interest_buy = d;
-    stringstream sstr;
-    sstr << "Set interest on purchase to " << get_interest_buy() << "!";
-    log.add(sstr.str());
+    log << "Set interest on purchase to " << get_interest_buy() << "!";
+    log.add();
 }
 
 void Bank::cui_set_interest_sell(vector<string> in)
@@ -96,9 +92,8 @@ void Bank::cui_set_interest_sell(vector<string> in)
     if (!convert_s<double>(in[0], d))
         return;
     interest_sell = d;
-    stringstream sstr;
-    sstr << "Set interest on selling to " << get_interest_sell() << "!";
-    log.add(sstr.str());
+    log << "Set interest on selling to " << get_interest_sell() << "!";
+    log.add();
 }
 
 void Bank::cui_add_players(vector<string> in)
@@ -108,9 +103,8 @@ void Bank::cui_add_players(vector<string> in)
     for (vector<string>::iterator it = in.begin(); it != in.end(); ++it)
     {
         add_player(*it);
-        stringstream sstr;
-        sstr << "New player: " << players.back();
-        log.add(sstr.str());
+        log << "New player: " << players.back();
+        log.add();
     }
 }
 
@@ -120,18 +114,17 @@ void Bank::cui_remove_players(vector<string> in)
         return;
     for (vector<string>::iterator it = in.begin(); it != in.end(); ++it)
     {
-        stringstream sstr;
         vector<Player>::iterator to_remove = check_player(*it);
         if (to_remove != players.end())
         {
-            sstr << "Removed player: " << *to_remove;
+            log << "Removed player: " << *to_remove;
             remove_player(to_remove);
-            log.add(sstr.str());
+            log.add();
         }
         else
         {
-            sstr << "No player found with name or id '" << *it << "'";
-            syslog.err(sstr.str());
+            syslog << "No player found with name or id '" << *it << "'";
+            syslog.err();
         }
     }
 }
@@ -146,16 +139,14 @@ void Bank::cui_add_chip_sorts(vector<string> in)
         int amount, value;
         if (! (convert_s(in[i], amount) && convert_s(in[i+2], value)))
         {
-            stringstream sstr;
-            sstr << "Input '" << in[i] << " " << in[i+1] << " " << in[i+2] << "' is not correct to define a chip!";
-            syslog.err(sstr.str());
+            syslog << "Input '" << in[i] << " " << in[i+1] << " " << in[i+2] << "' is not correct to define a chip!";
+            syslog.err();
             i += 2; //go to next group of three
             continue;
         }
         add_chip(Chip(value, in[i+1], amount));
-        stringstream sstr;
-        sstr << "Added new chip: " << chips[value];
-        log.add(sstr.str());
+        log << "Added new chip: " << chips[value];
+        log.add();
     }
 }
 
@@ -193,9 +184,8 @@ void Bank::cui_set_log(vector<string> in)
         reflog = &syslog;
     else if (in.front() != "log")
     {
-        stringstream sstr;
-        sstr << "'" << in.front() << "' does not specify a log. Type 'log' for normal log or 'syslog' for system log.";
-        syslog.err(sstr.str());
+        syslog << "'" << in.front() << "' does not specify a log. Type 'log' for normal log or 'syslog' for system log.";
+        syslog.err();
         return;
     }
     // 2. parameter: choose setting (without / with further paramter)
@@ -204,22 +194,21 @@ void Bank::cui_set_log(vector<string> in)
         if (in.size() == 2)
         {
             if (reflog->save())
-                log.add("Log successfully saved to standard path!");
+                syslog.add("Log successfully saved to standard path!");
             else
-                log.add("Could not save log to standard path!");
+                syslog.add("Could not save log to standard path!");
         }
         else
         {
-            stringstream sstr;
             if (reflog->save(in[2].c_str()))
             {
-                sstr << "Log successfully saved to '" << in[2] << "'!";
-                log.add(sstr.str());
+                syslog << "Log successfully saved to '" << in[2] << "'!";
+                syslog.add();
             }
             else
             {
-                sstr << "Could not save log to '" << in[2] << "'!";
-                log.err(sstr.str());
+                syslog << "Could not save log to '" << in[2] << "'!";
+                syslog.err();
             }
         }
         return;
@@ -235,16 +224,15 @@ void Bank::cui_set_log(vector<string> in)
         }
         else
         {
-            stringstream sstr;
             if (reflog->load(in[2].c_str()))
             {
-                sstr << "Log successfully loaded from '" << in[2] << "'!";
-                log.add(sstr.str());
+                log << "Log successfully loaded from '" << in[2] << "'!";
+                log.add();
             }
             else
             {
-                sstr << "Could not load log from '" << in[2] << "'!";
-                log.err(sstr.str());
+                log << "Could not load log from '" << in[2] << "'!";
+                log.err();
             }
         }
         return;
@@ -255,14 +243,13 @@ void Bank::cui_set_log(vector<string> in)
     if (in[1] == "file")
     {
         reflog->set_file_name(in[2]);
-        stringstream sstr;
-        sstr << "Changed filename of ";
+        syslog << "Changed filename of ";
         if (reflog == &log)
-            sstr << "log";
+            syslog << "log";
         else
-            sstr << "syslog";
-        sstr << " to '" << in[2] << "'.";
-        syslog.add(sstr.str());
+            syslog << "syslog";
+        syslog << " to '" << in[2] << "'.";
+        syslog.add();
     }
     else if (in[1] == "autosave")
     {
@@ -272,9 +259,8 @@ void Bank::cui_set_log(vector<string> in)
     }
     else
     {
-        stringstream sstr;
-        sstr << "'" << in[1] << "' is no available setting in logs!";
-        syslog.err(sstr.str());
+        syslog << "'" << in[1] << "' is no available setting in logs!";
+        syslog.err();
         return;
     }
 }
@@ -336,9 +322,8 @@ bool Bank::change_chip_amount(int val, int diff)
     else if (diff < 0)
         if (!chips[val].reduce_amount(-diff))
         {
-            stringstream sstr;
-            sstr << "No " << -diff << " chips of value " << val << " available!";
-            syslog.err(sstr.str());
+            syslog << "No " << -diff << " chips of value " << val << " available!";
+            syslog.err();
             return false;
         }
     return true;
@@ -375,34 +360,30 @@ string Bank::get_interest_sell()
 
 void Bank::show_money()
 {
-    stringstream sstr;
-    sstr << "Money in bank: " << money;
-    log.add(sstr.str());
+    log << "Money in bank: " << money;
+    log.add();
 }
 
 void Bank::show_interest()
 {
-    stringstream sstr;
-    sstr << "Interest: " << get_interest_buy() << " (buy) / " << get_interest_sell() << " (sell)";
-    log.add(sstr.str());
+    log << "Interest: " << get_interest_buy() << " (buy) / " << get_interest_sell() << " (sell)";
+    log.add();
 }
 
 void Bank::show_chip_value()
 {
-    stringstream sstr;
-    sstr << "Value of all chips in bank: " << get_balance();
-    log.add(sstr.str());
+    log << "Value of all chips in bank: " << get_balance();
+    log.add();
 }
 
 void Bank::show_chips()
 {
-    stringstream sstr;
-    sstr << "Chips in bank:";
+    log << "Chips in bank:";
     for (map<int, Chip>::iterator it = chips.begin(); it != chips.end(); ++it)
     {
-        sstr << "\n" << it->second;
+        log << "\n" << it->second;
     }
-    log.add(sstr.str());
+    log.add();
 }
 
 void Bank::show_bank_status()
@@ -414,13 +395,12 @@ void Bank::show_bank_status()
 
 void Bank::show_players()
 {
-    stringstream sstr;
-    sstr << "All players registred to bank:";
+    log << "All players registred to bank:";
     for (vector<Player>::iterator p = players.begin(); p != players.end(); ++p)
     {
-        sstr << "\n" << p->tostr();
+        log << "\n" << p->tostr();
     }
-    log.add(sstr.str());
+    log.add();
 }
 
 void Bank::exit_program()
@@ -439,9 +419,8 @@ vector< pair<int, int> > Bank::str_to_chips(vector<string>::iterator first, vect
         boost::split(n, *it, [](const char c)->bool{return c == 'x';});
         if (n.size() != 2)
         {
-            stringstream err;
-            err << "'" << *it << "': Incorrect way to specify chip sort";
-            syslog.err(err.str());
+            syslog << "'" << *it << "': Incorrect way to specify chip sort";
+            syslog.err();
             continue;
         }
         int amount, value;
@@ -452,9 +431,8 @@ vector< pair<int, int> > Bank::str_to_chips(vector<string>::iterator first, vect
         }
         catch (boost::bad_lexical_cast&)
         {
-            stringstream err;
-            err << "'" << *it << "': Chip amount and sort must be specified by numbers!";
-            syslog.err(err.str());
+            syslog << "'" << *it << "': Chip amount and sort must be specified by numbers!";
+            syslog.err();
             continue;
         }
         ret.push_back(pair<int, int>(amount, value));
@@ -464,17 +442,16 @@ vector< pair<int, int> > Bank::str_to_chips(vector<string>::iterator first, vect
 
 void Bank::buy_sell(bool buy, string name, vector< pair<int, int> > buychips)
 {
-    stringstream sstr;
     int brutto = 0;
     vector<Player>::iterator p = check_player(name);
     if (p != players.end())
-        sstr << *p;
+        log << *p;
     else
-        sstr << "\"" << name << "\"(unknown)";
+        log << "\"" << name << "\"(unknown)";
     if (buy)
-        sstr << " bought";
+        log << " bought";
     else
-        sstr << " sold";
+        log << " sold";
 
     for(vector< pair<int, int> >::iterator it = buychips.begin(); it != buychips.end(); ++it)
     {
@@ -483,9 +460,8 @@ void Bank::buy_sell(bool buy, string name, vector< pair<int, int> > buychips)
         //check if sort exists
         if (chips.find(it->second) == chips.end())
         {
-            stringstream err;
-            err << "Sort '" << it->second << "' does not exist!";
-            syslog.err(err.str());
+            syslog << "Sort '" << it->second << "' does not exist!";
+            syslog.err();
             continue;
         }
         if (buy)
@@ -493,9 +469,8 @@ void Bank::buy_sell(bool buy, string name, vector< pair<int, int> > buychips)
             //check if intended amount of chips available
             if (!chips[it->second].reduce_amount(it->first))
             {
-                stringstream err;
-                err << "Could not buy " << it->first << " chips of sort '" << it->second << "': only " << chips[it->second] << " chips available!";
-                syslog.err(err.str());
+                syslog << "Could not buy " << it->first << " chips of sort '" << it->second << "': only " << chips[it->second] << " chips available!";
+                syslog.err();
                 continue;
             }
         }
@@ -505,7 +480,7 @@ void Bank::buy_sell(bool buy, string name, vector< pair<int, int> > buychips)
         //update log entry
         int add = it->first * it->second;
         brutto += add;
-        sstr << " " << it->first << "x" << it->second << " (" << add << ");";
+        log << " " << it->first << "x" << it->second << " (" << add << ");";
     }
     //put log entry
     if (brutto != 0)
@@ -517,17 +492,17 @@ void Bank::buy_sell(bool buy, string name, vector< pair<int, int> > buychips)
             interest = ceil(brutto * interest_buy);
             netto = brutto + interest;
             money += netto;
-            sstr << "\nResult: " << brutto << "  ***  Interest(" << get_interest_buy() << "): " << interest << "  ***  Please pay: ";
+            log << "\nResult: " << brutto << "  ***  Interest(" << get_interest_buy() << "): " << interest << "  ***  Please pay: ";
         }
         else
         {
             interest = ceil(brutto * interest_sell);
             netto = brutto - interest;
             money -= netto;
-            sstr << "\nResult: " << brutto << "  ***  Interest(" << get_interest_sell() << "): " << interest << "  ***  You get: ";
+            log << "\nResult: " << brutto << "  ***  Interest(" << get_interest_sell() << "): " << interest << "  ***  You get: ";
         }
-        sstr << netto;
-        log.add(sstr.str());
+        log << netto;
+        log.add();
     }
     else
         syslog.err("No correct inputs - no chips transferred!");
@@ -536,24 +511,23 @@ void Bank::buy_sell(bool buy, string name, vector< pair<int, int> > buychips)
 
 bool Bank::check_arguments(size_t is, size_t min, size_t max)
 {
-    stringstream sstr;
-    sstr << "Expected ";
+    log << "Expected ";
     if (max == -1)
         if (is >= min)
             return true;
         else
-            sstr << "at least " << min;
+            log << "at least " << min;
     else if (is >= min && is <= max)
         return true;
     else
     {
         if (min == max)
-            sstr << min;
+            log << min;
         else
-            sstr << "between " << min << " and " << max;
+            log << "between " << min << " and " << max;
     }
-    sstr << " arguments!";
-    syslog.err(sstr.str());
+    syslog << " arguments!";
+    syslog.err();
     return false;
 }
 
@@ -561,9 +535,8 @@ bool Bank::check_chip_value(int& val)
 {
     if (chips.find(val) == chips.end())
     {
-        stringstream sstr;
-        sstr << "No chip defined with value " << val << "!";
-        syslog.err(sstr.str());
+        syslog << "No chip defined with value " << val << "!";
+        syslog.err();
         return false;
     }
     return true;
@@ -577,9 +550,8 @@ template<class T> bool Bank::convert_s(string& source, T& var)
     }
     catch (boost::bad_lexical_cast&)
     {
-        stringstream sstr;
-        sstr << "'" << source << "' has wrong type!";
-        syslog.err(sstr.str());
+        syslog << "'" << source << "' has wrong type!";
+        syslog.err();
         return false;
     }
     return true;

@@ -9,6 +9,7 @@
 
 #include "lib/SimpleCUI/Cui.h"
 #include "lib/SimpleLog/Log.h"
+#include "lib/SimpleLog/templates.h"
 #include <vector>
 #include <map>
 
