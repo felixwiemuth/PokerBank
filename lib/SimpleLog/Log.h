@@ -23,6 +23,8 @@ class Log
         //text-vars
         std::string version; //version string
         std::string name; //string to be put before every output symbol at printing to console
+        std::string file_title_1; //text to be put before date/time (of saving) as title in the file where log is saved
+        std::string file_title_2; //text to be put after date/time (of saving) as title in the file where log is saved
         std::string prefix; //string to be put before every entry
         std::string file_ending; //standard file ending
         std::string file_name; //standard file name
@@ -71,8 +73,10 @@ class Log
         void echo_err_off();
         void set_autosave(int mode);
 
-        //set messages vars
+        //set text/message vars
         void set_name(std::string name);
+        void set_file_tile_1(std::string file_title_1);
+        void set_file_tile_2(std::string file_title_2);
         void set_prefix(std::string prefix);
         void set_file_ending(std::string file_ending);
         void set_file_name(std::string file_name);
@@ -93,6 +97,9 @@ class Log
         //get methods
         std::string get_version(); //returns version string of SimpleLog
         std::ostringstream& ref_buff(); //returns reference to 'buff'
+
+        //additional "gets"
+        std::string get_time(); //returns formated string with current time
 
         //print methods
         void print(unsigned int entry); //displays 'logstr[entry]'
