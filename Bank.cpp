@@ -505,29 +505,32 @@ void Bank::buy_sell(bool buy, string name, vector< pair<int, int> > buychips)
         log.add();
     }
     else
+    {
+        log.ref_buff().str("");
         syslog.err("No correct inputs - no chips transferred!");
-
+    }
 }
 
 bool Bank::check_arguments(size_t is, size_t min, size_t max)
 {
-    log << "Expected ";
+    stringstream sstr;
+    sstr << "Expected ";
     if (max == -1)
         if (is >= min)
             return true;
         else
-            log << "at least " << min;
+            sstr << "at least " << min;
     else if (is >= min && is <= max)
         return true;
     else
     {
         if (min == max)
-            log << min;
+            sstr << min;
         else
-            log << "between " << min << " and " << max;
+            sstr << "between " << min << " and " << max;
     }
-    syslog << " arguments!";
-    syslog.err();
+    sstr << " arguments!";
+    syslog.err(sstr.str());
     return false;
 }
 
