@@ -52,9 +52,9 @@ class Bank
         void cui_add_chip_sorts(std::vector<std::string> in); //CUI api to register new (or overwrite old) chip sorts to bank -- syntax: "[amount1] [name1] [value1] [amount2] [name2] [value2] ..."
         void cui_remove_chip_sorts(std::vector<std::string> in); //CUI api to remove chip sorts from bank -- syntax: "[value1] [value2] ..."
         void cui_change_chip_amount(std::vector<std::string> in); //CUI api to change amount of chips of different sorts -- syntax: "[diff1]x[value1] [diff2]x[value2] ..."
+        void cui_deal_chips_all_players(std::vector<std::string> in); //CUI api to deal (give or take) chips with all players -- syntax: "[diff1]x[value1] [diff2]x[value2] ..."
         void cui_set_log(std::vector<std::string> in); //CUI api with sub-commands to set different values of both logs or save/load them -- syntax: "[log/syslog] [file/autosave/save/...//TODO add] [value]"
         /* --- methods --- */
-        //void inflation(double factor);
         void set_interest_buy(double interest); //set 'interest_buy' to 'interest'
         void set_interest_sell(double interest);//set 'interest_sell' to 'interest'
         void add_money(int amount); //add 'amount' money to the bank
@@ -64,6 +64,7 @@ class Bank
         void add_chip(Chip chip); //add 'chip' to 'chips'
         void remove_chip(int value); //removes chip sort with value 'value'
         bool change_chip_amount(int val, int diff); //changes amount of chips with value 'val' by 'diff'
+        void deal_chips_all_players(std::vector< std::pair<int, int> > chips); //change amount of chips at every player by amounts given in 'chips' (internally only banks 'money' is changed)
 
         std::vector<Player>::iterator check_player(std::string name); //check if 'name' is a players name or id -- iterator to first matching player will be returned
         int get_balance(); //return the value of all chips together
@@ -80,7 +81,7 @@ class Bank
         void exit_program(); //leave program
     private:
         std::vector< std::pair<int, int> > str_to_chips(std::vector<std::string>::iterator first, std::vector<std::string>::iterator last); //convert input format ("[amount]x[value]") of chips to internal format (pair: amount, value)
-        void buy_sell(bool buy, std::string name, std::vector< std::pair<int, int> > buychips); //player 'name' buys ('buy==true') or sells ('buy==false') 'sellchips[n]' chips of sort 'chips[n]'
+        void buy_sell(bool buy, std::string name, std::vector< std::pair<int, int> > buychips); //player 'name' buys ('buy==true') or sells ('buy==false') 'sellchips[n]' chips of sort 'chips[n]' -- note: negative amounts are possible (you can use it to undo buying/selling)
         bool check_arguments(size_t is, size_t min, size_t max = -1); //check if 'is' is between 'min' and 'max' ('max='-1' means no max), if not displays error message and returns 'false'
         bool check_chip_value(int& val); //checks if 'val' is the value of an available chip sort, displays error message if not
         template<class T> bool convert_s(std::string& source, T& var); //converts 'source' to type 'T' (numeric) and shows error on failure -- returns true on success

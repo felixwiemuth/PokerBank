@@ -174,6 +174,13 @@ void Bank::cui_change_chip_amount(vector<string> in)
     }
 }
 
+void Bank::cui_deal_chips_all_players(std::vector<std::string> in)
+{
+    if (!check_arguments(in.size(), 1))
+        return;
+    deal_chips_all_players(str_to_chips(in.begin(), in.end()));
+}
+
 void Bank::cui_set_log(vector<string> in)
 {
     if (!check_arguments(in.size(), 2, 3))
@@ -232,7 +239,7 @@ void Bank::cui_set_log(vector<string> in)
             else
             {
                 log << "Could not load log from '" << in[2] << "'!";
-                log.err();
+                syslog.err();
             }
         }
         return;
@@ -264,11 +271,6 @@ void Bank::cui_set_log(vector<string> in)
         return;
     }
 }
-
-//void Bank::inflation(double factor)
-//{
-//
-//}
 
 void Bank::set_interest_buy(double interest)
 {
@@ -327,6 +329,27 @@ bool Bank::change_chip_amount(int val, int diff)
             return false;
         }
     return true;
+}
+
+void Bank::deal_chips_all_players(vector< pair<int, int> > chips)
+{
+    log << "Change amount of chips at each player as following:\nAdd: ";
+    stringstream take;
+    int diffbank = 0;
+    for (vector< pair<int, int> >::iterator c = chips.begin(); c != chips.end(); ++c)
+    {
+        if (!change_chip_amount(c->second, -(c->first * players.size())))
+            continue;
+        if (c->first > 0)
+            log << " " << c->first << "x" << c->second;
+        else if (c->first < 0)
+            take << " " << -(c->first) << "x" << c->second;
+        else
+            continue;
+        diffbank -= c->first * c->second;
+    }
+    log << "\nTake:" << take.str() << "\nResult player: " << -diffbank << "  ***  Result bank: " << diffbank * int(players.size());
+    log.add();
 }
 
 vector<Player>::iterator Bank::check_player(string name)
@@ -458,12 +481,8 @@ void Bank::buy_sell(bool buy, string name, vector< pair<int, int> > buychips)
         if (it->first == 0) //transfer no chips of this sort
             continue;
         //check if sort exists
-        if (chips.find(it->second) == chips.end())
-        {
-            syslog << "Sort '" << it->second << "' does not exist!";
-            syslog.err();
+        if (!check_chip_value(it->second))
             continue;
-        }
         if (buy)
         {
             //check if intended amount of chips available
@@ -538,7 +557,7 @@ bool Bank::check_chip_value(int& val)
 {
     if (chips.find(val) == chips.end())
     {
-        syslog << "No chip defined with value " << val << "!";
+        syslog << "Sort '" << val << "' does not exist!";
         syslog.err();
         return false;
     }
