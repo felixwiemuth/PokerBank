@@ -17,8 +17,11 @@ int main(/*int argc, char** argv*/)
     Bank bank;
     Chip chip1(50, "red", 200);
     bank.add_chip(chip1);
+    bank.add_chip(Chip(100, "green", 100));
     string player1 = "Dieter";
     bank.add_player(player1);
+    string player2 = "Frank";
+    bank.add_player(player2);
 
     // add CUI-handlers
     cui["buy"].set(&bank, 0, &Bank::cui_buy).set_help("Buy chips from bank. Syntax: [name] [n1]x[c1] [n2]x[c2] ... n = amount, c = chip value");
@@ -32,7 +35,10 @@ int main(/*int argc, char** argv*/)
     cui["add-chips"].set(&bank, 0, &Bank::cui_add_chip_sorts).set_help("Register new (or overwrite old) chip sorts. Syntax: [amount1] [name1] [value1] [amount2] [name2] [value2] ...");
     cui["remove-chips"].set(&bank, 0, &Bank::cui_remove_chip_sorts).set_help("Remove chip sorts. Syntax: [amount1] [name1] [value1] [amount2] [name2] [value2] ...");
     cui["chg-amount"].set(&bank, 0, &Bank::cui_change_chip_amount).set_help("Change amount of chips of different sorts. Syntax: [diff1]x[value1] [diff2]x[value2] ...");
+    cui["deal-chips"].set(&bank, 0, &Bank::cui_deal_chips_all_players).set_help("Deal (give or take) chips with all players. syntax: [diff1]x[value1] [diff2]x[value2] ...");
+
     cui["log-set"].set(&bank, 0, &Bank::cui_set_log).set_help("");
+
     cui["money"].set(&bank, &Bank::show_money).set_help("Display money of bank.");
     cui["interest"].set(&bank, &Bank::show_interest).set_help("Display interest on buying/selling.");
     cui["chips"].set(&bank, &Bank::show_chips).set_help("Display all chips.");
