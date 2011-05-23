@@ -44,7 +44,7 @@ void Chip::factor_value(double& factor)
 
 ostream& operator<<(ostream& os, const Chip& chip)
 {
-    os << "name=" << chip.name << " value=" << chip.value << " amount=" << chip.amount;
+    os << chip.name << "(" << chip.value << "): " << chip.amount;
     return os;
 }
 
