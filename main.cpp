@@ -40,6 +40,7 @@ int main(/*int argc, char** argv*/)
     cui["log-set"].set(&bank, 0, &Bank::cui_set_log).set_help("");
 
     cui["money"].set(&bank, &Bank::show_money).set_help("Display money of bank.");
+    cui["chips-players"].set(&bank, &Bank::show_chips_players).set_help("Display value of all chips belonging to players.");
     cui["interest"].set(&bank, &Bank::show_interest).set_help("Display interest on buying/selling.");
     cui["chips"].set(&bank, &Bank::show_chips).set_help("Display all chips.");
     cui["value"].set(&bank, &Bank::show_chip_value).set_help("Display the value of all chips together.");
