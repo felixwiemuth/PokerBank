@@ -33,6 +33,7 @@ class Bank
         Bank();
     private:
         int money; //money belonging to the bank
+        int chips_players; //value of all chips currently belonging to players (is only correct if every chip transfer is contorlled by bank)
         std::vector<Player> players; //TODO in methods below players can write #XXX instead of name, with "XXX" being their registered id or name
         Log syslog; //log to log everything
         Log log; //log to log bank activity
@@ -72,6 +73,7 @@ class Bank
         std::string get_interest_sell(); //returns 'interest_sell' as string in form "xx%"
         //methods to show (log) status information
         void show_money();
+        void show_chips_players();
         void show_interest();
         void show_chip_value();
         void show_chips();

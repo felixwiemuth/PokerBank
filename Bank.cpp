@@ -16,6 +16,7 @@ Bank::Bank()
     interest_buy = 0;
     interest_sell = 0;
     money = 0;
+    chips_players = 0;
     log.set_remote(&syslog);
     log.echo_off();
     syslog.set_file_name("syslog");
@@ -335,7 +336,7 @@ void Bank::deal_chips_all_players(vector< pair<int, int> > chips)
 {
     log << "Change amount of chips at each player as following:\nAdd: ";
     stringstream take;
-    int diffbank = 0;
+    int diff = 0;
     for (vector< pair<int, int> >::iterator c = chips.begin(); c != chips.end(); ++c)
     {
         if (!change_chip_amount(c->second, -(c->first * players.size())))
@@ -346,9 +347,11 @@ void Bank::deal_chips_all_players(vector< pair<int, int> > chips)
             take << " " << -(c->first) << "x" << c->second;
         else
             continue;
-        diffbank -= c->first * c->second;
+        diff -= c->first * c->second;
     }
-    log << "\nTake:" << take.str() << "\nResult player: " << -diffbank << "  ***  Result bank: " << diffbank * int(players.size());
+    int diffbank = diff * int(players.size());
+    chips_players -= diffbank; //update 'chips_players'
+    log << "\nTake:" << take.str() << "\nResult player: " << -diff << "  ***  Result bank: " << diffbank;
     log.add();
 }
 
@@ -384,6 +387,12 @@ string Bank::get_interest_sell()
 void Bank::show_money()
 {
     log << "Money in bank: " << money;
+    log.add();
+}
+
+void Bank::show_chips_players()
+{
+    log << "Value of all chips belonging to players: " << chips_players;
     log.add();
 }
 
@@ -465,7 +474,7 @@ vector< pair<int, int> > Bank::str_to_chips(vector<string>::iterator first, vect
 
 void Bank::buy_sell(bool buy, string name, vector< pair<int, int> > buychips)
 {
-    int brutto = 0;
+    int brutto;
     vector<Player>::iterator p = check_player(name);
     if (p != players.end())
         log << *p;
@@ -496,10 +505,14 @@ void Bank::buy_sell(bool buy, string name, vector< pair<int, int> > buychips)
         else
             chips[it->second].increase_amount(it->first);
 
-        //update log entry
-        int add = it->first * it->second;
-        brutto += add;
-        log << " " << it->first << "x" << it->second << " (" << add << ");";
+        brutto = it->first * it->second;
+        log << " " << it->first << "x" << it->second << " (" << brutto << ");";
+
+        //update 'chips_players'
+        if (buy)
+            chips_players += brutto;
+        else
+            chips_players -= brutto;
     }
     //put log entry
     if (brutto != 0)
