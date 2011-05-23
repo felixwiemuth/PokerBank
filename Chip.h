@@ -27,6 +27,7 @@ class Chip
 
         //get_ methods
         int get_value();
+        std::string get_name();
         int get_amount();
 };
 

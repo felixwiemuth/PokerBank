@@ -82,7 +82,7 @@ class Bank
 
         void exit_program(); //leave program
     private:
-        std::vector< std::pair<int, int> > str_to_chips(std::vector<std::string>::iterator first, std::vector<std::string>::iterator last); //convert input format ("[amount]x[value]") of chips to internal format (pair: amount, value)
+        std::vector< std::pair<int, int> > str_to_chips(std::vector<std::string>::iterator first, std::vector<std::string>::iterator last); //convert input format ("[amount]x[value]") of chips to internal format (pair: amount, value) e.g. "4x50" --> first=4 second=50 "10xgreen" --> first=10 second=100 (specifying by words only works if chip name does not contain spaces or "x"!)
         void buy_sell(bool buy, std::string name, std::vector< std::pair<int, int> > buychips); //player 'name' buys ('buy==true') or sells ('buy==false') 'sellchips[n]' chips of sort 'chips[n]' -- note: negative amounts are possible (you can use it to undo buying/selling)
         bool check_arguments(size_t is, size_t min, size_t max = -1); //check if 'is' is between 'min' and 'max' ('max='-1' means no max), if not displays error message and returns 'false'
         bool check_chip_value(int& val); //checks if 'val' is the value of an available chip sort, displays error message if not

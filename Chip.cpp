@@ -63,6 +63,11 @@ int Chip::get_value()
     return value;
 }
 
+string Chip::get_name()
+{
+    return name;
+}
+
 int Chip::get_amount()
 {
     return amount;

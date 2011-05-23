@@ -444,7 +444,7 @@ void Bank::exit_program()
 vector< pair<int, int> > Bank::str_to_chips(vector<string>::iterator first, vector<string>::iterator last)
 {
     vector< pair<int, int> > ret;
-    //split words fo input in the two numbers: "4x50" --> n[0]=4 n[1] =50
+    //split words of input in the two numbers: "[amount]x[value]" --> n[0]=amount n[1]=value
     for (vector<string>::iterator it = first; it != last; ++it)
     {
         vector<string> n;
@@ -459,16 +459,33 @@ vector< pair<int, int> > Bank::str_to_chips(vector<string>::iterator first, vect
         try
         {
             amount = boost::lexical_cast<int>(n[0]);
-            value = boost::lexical_cast<int>(n[1]);
         }
         catch (boost::bad_lexical_cast&)
         {
-            syslog << "'" << *it << "': Chip amount and sort must be specified by numbers!";
+            syslog << "'" << *it << "': Chip amount must be specified by numbers!";
             syslog.err();
             continue;
         }
+        try
+        {
+            value = boost::lexical_cast<int>(n[1]);
+        }
+
+        catch (boost::bad_lexical_cast&)
+        {
+            //check if 'n[1]' contains the name of a chip sort
+            map<int, Chip>::iterator found = find_if(chips.begin(), chips.end(), [&n](pair<int, Chip> c)->bool{return n[1] == c.second.get_name();});
+            if (found == chips.end())
+            {
+                syslog << "'" << n[1] << "' is not the name of a chip sort!";
+                syslog.err();
+                continue;
+            }
+            value = found->second.get_value();
+        }
         ret.push_back(pair<int, int>(amount, value));
     }
+
     return ret;
 }
 
