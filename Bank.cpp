@@ -470,7 +470,6 @@ vector< pair<int, int> > Bank::str_to_chips(vector<string>::iterator first, vect
         {
             value = boost::lexical_cast<int>(n[1]);
         }
-
         catch (boost::bad_lexical_cast&)
         {
             //check if 'n[1]' contains the name of a chip sort
@@ -491,7 +490,7 @@ vector< pair<int, int> > Bank::str_to_chips(vector<string>::iterator first, vect
 
 void Bank::buy_sell(bool buy, string name, vector< pair<int, int> > buychips)
 {
-    int brutto;
+    int brutto = 0;
     vector<Player>::iterator p = check_player(name);
     if (p != players.end())
         log << *p;
@@ -522,14 +521,10 @@ void Bank::buy_sell(bool buy, string name, vector< pair<int, int> > buychips)
         else
             chips[it->second].increase_amount(it->first);
 
-        brutto = it->first * it->second;
-        log << " " << it->first << "x" << it->second << " (" << brutto << ");";
-
-        //update 'chips_players'
-        if (buy)
-            chips_players += brutto;
-        else
-            chips_players -= brutto;
+        //update log entry
+        int add = it->first * it->second;
+        brutto += add;
+        log << " " << it->first << "x" << it->second << " (" << add << ");";
     }
     //put log entry
     if (brutto != 0)
@@ -542,6 +537,7 @@ void Bank::buy_sell(bool buy, string name, vector< pair<int, int> > buychips)
             netto = brutto + interest;
             money += netto;
             log << "\nResult: " << brutto << "  ***  Interest(" << get_interest_buy() << "): " << interest << "  ***  Please pay: ";
+            chips_players += brutto;
         }
         else
         {
@@ -549,6 +545,7 @@ void Bank::buy_sell(bool buy, string name, vector< pair<int, int> > buychips)
             netto = brutto - interest;
             money -= netto;
             log << "\nResult: " << brutto << "  ***  Interest(" << get_interest_sell() << "): " << interest << "  ***  You get: ";
+            chips_players -= brutto;
         }
         log << netto;
         log.add();
