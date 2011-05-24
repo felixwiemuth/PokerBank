@@ -11,7 +11,9 @@
 
 using namespace std;
 
+const string Bank::name = "PokerBank";
 const string Bank::version = "0.x.x Alpha";
+const string Bank::copyright = "Copyright(C) 2011 by Felix Wiemuth\nLicensed under the GNU GENERAL PUBLIC LICENSE\nhttp://www.gnu.org/licenses/gpl.txt";
 
 Bank::Bank()
 {
@@ -25,7 +27,8 @@ Bank::Bank()
     log.set_autosave(2); //save on destruction
     syslog.set_autosave(2); //save on destruction
     syslog.log_info();
-    syslog.add("Welcome to PokerBank!");
+    syslog << "Welcome to " << name << "!";
+    syslog.add();
 }
 
 void Bank::cui_buy(vector<string> in)
@@ -442,9 +445,15 @@ void Bank::show_players()
     log.add();
 }
 
+void Bank::show_about()
+{
+    log << name << " " << version << "\n" << copyright;
+    log.add();
+}
+
 void Bank::exit_program()
 {
-    syslog.add("End running of PokerBank and leave program now...");
+    syslog.add("Termination requested by user...");
     throw exit_exception(0);
 }
 

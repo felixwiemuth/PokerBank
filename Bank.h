@@ -32,7 +32,9 @@ class Bank
     public:
         Bank();
     private:
+        static const std::string name;
         static const std::string version;
+        static const std::string copyright;
         int money; //money belonging to the bank
         int chips_players; //value of all chips currently belonging to players (is only correct if every chip transfer is contorlled by bank)
         std::vector<Player> players; //TODO in methods below players can write #XXX instead of name, with "XXX" being their registered id or name
@@ -81,6 +83,7 @@ class Bank
         void show_chips();
         void show_bank_status(); //show every information if 'show_' methods (from above) together
         void show_players();
+        void show_about();
 
         void exit_program(); //leave program
     private:

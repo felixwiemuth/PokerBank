@@ -46,6 +46,7 @@ int main(/*int argc, char** argv*/)
     cui["value"].set(&bank, &Bank::show_chip_value).set_help("Display the value of all chips together.");
     cui["status"].set(&bank, &Bank::show_bank_status).set_help("Display status of bank.");
     cui["players"].set(&bank, &Bank::show_players).set_help("Display players registered to bank.");
+    cui["about"].set(&bank, &Bank::show_about).set_help("Display information about this program.");
     // ||to add new copy:|| cui[""].set(&bank, &Bank::);
     cui[""].set(&bank, &Bank::exit_program);
     bank.set_interest_buy(0.0075);
