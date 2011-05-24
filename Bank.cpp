@@ -11,6 +11,8 @@
 
 using namespace std;
 
+const string Bank::version = "0.x.x Alpha";
+
 Bank::Bank()
 {
     interest_buy = 0;
@@ -368,6 +370,11 @@ int Bank::get_balance()
         ret += it->second.get_amount() * it->second.get_value();
     }
     return ret;
+}
+
+string Bank::get_version()
+{
+    return version;
 }
 
 string Bank::get_interest_buy()

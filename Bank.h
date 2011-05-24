@@ -32,6 +32,7 @@ class Bank
     public:
         Bank();
     private:
+        static const std::string version;
         int money; //money belonging to the bank
         int chips_players; //value of all chips currently belonging to players (is only correct if every chip transfer is contorlled by bank)
         std::vector<Player> players; //TODO in methods below players can write #XXX instead of name, with "XXX" being their registered id or name
@@ -69,6 +70,7 @@ class Bank
 
         std::vector<Player>::iterator check_player(std::string name); //check if 'name' is a players name or id -- iterator to first matching player will be returned
         int get_balance(); //return the value of all chips together
+        std::string get_version(); //returns version string of PokerBank
         std::string get_interest_buy(); //returns 'interest_buy' as string in form "xx%"
         std::string get_interest_sell(); //returns 'interest_sell' as string in form "xx%"
         //methods to show (log) status information
