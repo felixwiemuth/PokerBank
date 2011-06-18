@@ -1,0 +1,17 @@
+SimpleAbout - Copyright (C) 2011 by Felix Wiemuth
+=================================================
+Version 1.0.0 Beta
+
+---------
+ License
+---------
+
+GNU GENERAL PUBLIC LICENSE http://www.gnu.org/licenses/gpl.txt
+
+
+-------------
+ Description
+-------------
+
+A C++ class to keep and display "About" information in your console applications.
+This includes for example title, version, copyright and license.
