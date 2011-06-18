@@ -11,9 +11,7 @@
 
 using namespace std;
 
-const string Bank::name = "PokerBank";
-const string Bank::version = "0.x.x Alpha";
-const string Bank::copyright = "Copyright(C) 2011 by Felix Wiemuth\nLicensed under the GNU GENERAL PUBLIC LICENSE\nhttp://www.gnu.org/licenses/gpl.txt";
+const About Bank::about("Poker Bank", "0.x.x Alpha", "Felix Wiemuth", "2011", About::LICENSE_GPL);
 
 Bank::Bank()
 {
@@ -27,7 +25,7 @@ Bank::Bank()
     log.set_autosave(2); //save on destruction
     syslog.set_autosave(2); //save on destruction
     syslog.log_info();
-    syslog << "Welcome to " << name << "!";
+    syslog << about;
     syslog.add();
 }
 
@@ -375,11 +373,6 @@ int Bank::get_balance()
     return ret;
 }
 
-string Bank::get_version()
-{
-    return version;
-}
-
 string Bank::get_interest_buy()
 {
     stringstream sstr;
@@ -447,7 +440,7 @@ void Bank::show_players()
 
 void Bank::show_about()
 {
-    log << name << " " << version << "\n" << copyright;
+    log << about;
     log.add();
 }
 
