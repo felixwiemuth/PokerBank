@@ -83,7 +83,7 @@ void Bank::cui_set_interest_buy(vector<string> in)
     double d;
     if (!convert_s<double>(in[0], d))
         return;
-    interest_buy = d;
+    interest_buy = d / 100;
     log << "Set interest on purchase to " << get_interest_buy() << "!";
     log.add();
 }
@@ -95,7 +95,7 @@ void Bank::cui_set_interest_sell(vector<string> in)
     double d;
     if (!convert_s<double>(in[0], d))
         return;
-    interest_sell = d;
+    interest_sell = d / 100;
     log << "Set interest on selling to " << get_interest_sell() << "!";
     log.add();
 }
@@ -424,6 +424,7 @@ void Bank::show_chips()
 void Bank::show_bank_status()
 {
     show_money();
+    show_interest();
     show_chip_value();
     show_chips();
 }

@@ -59,8 +59,8 @@ class Bank
         void cui_deal_chips_all_players(std::vector<std::string> in); //CUI api to deal (give or take) chips with all players -- syntax: "[diff1]x[value1] [diff2]x[value2] ..."
         void cui_set_log(std::vector<std::string> in); //CUI api with sub-commands to set different values of both logs or save/load them -- syntax: "[log/syslog] [file/autosave/save/...//TODO add] [value]"
         /* --- methods --- */
-        void set_interest_buy(double interest); //set 'interest_buy' to 'interest'
-        void set_interest_sell(double interest);//set 'interest_sell' to 'interest'
+        void set_interest_buy(double interest); //set 'interest_buy' to 'interest/100'
+        void set_interest_sell(double interest);//set 'interest_sell' to 'interest/100'
         void add_money(int amount); //add 'amount' money to the bank
         bool take_money(int amount); //takes 'amount' money from the bank -- returns 'true' if enough money available to take 'amount'
         void add_player(std::string& name); //add a new player with name 'name' to 'players'
